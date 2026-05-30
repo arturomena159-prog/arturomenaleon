@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arturo Mena León</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #080b0d;
+    --surface:   #0d1215;
+    --surface2:  #111820;
+    --border:    #1a2530;
+    --accent:    #5ba3a0;
+    --accent2:   #7ec8c4;
+    --accent-dim: rgba(91,163,160,0.12);
+    --accent-glow: rgba(91,163,160,0.06);
+    --text:      #dce8e8;
+    --text-dim:  #6a8a8a;
+    --text-muted:#2e4848;
+    --white:     #eef4f4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    cursor: crosshair;
+  }
+
+  /* GRAIN */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* ─── LAYOUT ─── */
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+
+  /* NAV */
+  nav {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,11,13,0.97);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    position: relative;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-links button {
+    background: none;
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 0.5rem 1.1rem;
+    transition: color 0.25s;
+    position: relative;
+  }
+
+  .nav-links button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+
+  .nav-links button:hover { color: var(--text); }
+  .nav-links button.active { color: var(--accent); }
+  .nav-links button.active::after { width: 70%; }
+
+  .nav-right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* VIEWPORT */
+  #viewport {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* PAGES TRACK */
+  #track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.65s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  .page {
+    width: 100vw;
+    height: 100%;
+    flex-shrink: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4rem 3rem 5rem;
+    position: relative;
+  }
+
+  /* PAGE BG ACCENT (very subtle) */
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  #page-home::before {
+    background:
+      radial-gradient(ellipse 55% 45% at 75% 35%, rgba(91,163,160,0.05) 0%, transparent 65%),
+      radial-gradient(ellipse 35% 55% at 20% 75%, rgba(91,163,160,0.03) 0%, transparent 55%);
+  }
+
+  /* ─── COMMON ─── */
+  .page-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.92;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .page-title em { font-style: italic; color: var(--accent); }
+
+  .section-rule {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, var(--accent), transparent);
+    margin: 2.5rem 0;
+    opacity: 0.3;
+  }
+
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  /* ─── HOME ─── */
+  #page-home {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  /* film strip */
+  .film-strip {
+    position: absolute;
+    top: 0; right: 4rem;
+    width: 50px; height: 100%;
+    opacity: 0.05;
+    display: flex; flex-direction: column;
+    pointer-events: none;
+  }
+  .film-hole {
+    width: 18px; height: 14px;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    margin: 5px auto; flex-shrink: 0;
+  }
+
+  .home-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(4.5rem, 11vw, 10rem);
+    line-height: 0.88;
+    color: var(--white);
+    letter-spacing: -0.025em;
+    animation: fadeUp 1s 0.4s both;
+  }
+  .home-name em { font-style: italic; color: var(--accent); }
+
+  .home-roles {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    animation: fadeUp 1s 0.7s both;
+  }
+
+  .roles-list {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    line-height: 2.2;
+  }
+  .roles-list span { display: block; }
+  .roles-list span::before { content: '— '; color: var(--accent); }
+
+  .home-divider { width: 1px; height: 90px; background: linear-gradient(to bottom, transparent, var(--accent), transparent); }
+
+  .home-tagline {
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--text-dim);
+    max-width: 260px;
+    line-height: 1.55;
+  }
+
+  .home-cta {
+    margin-top: 3rem;
+    animation: fadeUp 1s 1s both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: none;
+    transition: all 0.3s;
+  }
+  .btn:hover { background: var(--accent-dim); color: var(--accent2); }
+
+  /* ─── ABOUT ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 5rem;
+    margin-top: 1rem;
+  }
+
+  .stats-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .stat { border-left: 1px solid var(--accent); padding-left: 1rem; }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-weight: 300;
+    color: var(--accent2); line-height: 1;
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text-dim);
+    margin-top: 0.3rem;
+  }
+
+  .bio { font-size: 1.1rem; color: var(--text); line-height: 1.85; }
+  .bio em { color: var(--accent); font-style: italic; }
+
+  /* ─── FILM AUDIO ─── */
+  .discipline-intro {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+  }
+
+  .discipline-desc {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: all 0.3s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .service-card {
+    background: var(--bg);
+    padding: 1.75rem;
+    transition: background 0.35s;
+  }
+  .service-card:hover { background: var(--surface2); }
+
+  .service-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.95rem;
+    color: var(--white); margin-bottom: 0.6rem;
+  }
+  .service-desc { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* ─── ATMOS ─── */
+  #page-atmos { position: relative; }
+
+  #page-atmos::after {
+    content: 'ATMOS';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(7rem, 18vw, 16rem);
+    font-weight: 800;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(91,163,160,0.07);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+    z-index: 0;
+  }
+
+  .atmos-content { position: relative; z-index: 1; }
+
+  .atmos-badge {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 0.45rem 1.2rem;
+    border: 1px solid rgba(91,163,160,0.35);
+    margin-bottom: 2.5rem;
+  }
+  .atmos-dot {
+    width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  .atmos-badge-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--accent);
+  }
+
+  .atmos-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    line-height: 1.15; color: var(--white);
+    max-width: 680px; margin-bottom: 1.75rem;
+  }
+  .atmos-headline em { font-style: italic; color: var(--accent); }
+
+  .atmos-body {
+    font-size: 1.05rem; color: var(--text-dim);
+    max-width: 560px; margin-bottom: 3rem; line-height: 1.8;
+  }
+
+  .atmos-stats {
+    display: flex; gap: 3rem; align-items: center; flex-wrap: wrap;
+  }
+  .ch-group { text-align: center; }
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem; font-weight: 300;
+    color: var(--accent); line-height: 1;
+  }
+  .ch-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+  .ch-sep { width: 1px; height: 55px; background: var(--border); }
+
+  /* ─── AUDIO PLAYERS ─── */
+  .players-section { margin-top: 3rem; }
+  .players-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  .player-item { flex: 1; min-width: 220px; }
+  .player-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.56rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.15rem;
+  }
+  .player-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+  .player-iframe { display: block; width: 100%; border: none; }
+
+  /* ─── MIX ─── */
+  /* reuses services-grid + discipline-intro */
+
+  /* ─── MUSIC ─── */
+  /* reuses same patterns */
+
+  /* ─── PHOTOGRAPHY ─── */
+  .photo-intro {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3px;
+  }
+
+  .photo-slot {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .photo-slot:hover { border-color: var(--accent); }
+
+  .photo-slot.l  { grid-column: span 5; aspect-ratio: 4/3; }
+  .photo-slot.m  { grid-column: span 4; aspect-ratio: 3/2; }
+  .photo-slot.s  { grid-column: span 3; aspect-ratio: 1; }
+  .photo-slot.w  { grid-column: span 7; aspect-ratio: 16/9; }
+
+  .photo-slot img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, filter 0.5s ease;
+    filter: grayscale(15%);
+  }
+  .photo-slot:hover img { transform: scale(1.04); filter: grayscale(0%); }
+
+  .ph-inner {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 0.4rem;
+  }
+  .ph-icon { font-size: 1.3rem; opacity: 0.1; }
+  .ph-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+
+  .photo-note {
+    margin-top: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.15em;
+    color: var(--text-muted); font-style: italic;
+  }
+
+  /* ─── PROJECTS ─── */
+  .proj-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+  .proj-tab {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-muted);
+    background: none; border: none; cursor: pointer;
+    padding: 0.65rem 1.6rem 0.65rem 0;
+    position: relative; transition: color 0.25s;
+  }
+  .proj-tab::after {
+    content: ''; position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 1px; background: var(--accent);
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  .proj-tab.active { color: var(--accent); }
+  .proj-tab.active::after { transform: scaleX(1); }
+
+  .proj-panel { display: none; }
+  .proj-panel.active { display: block; }
+
+  /* Film posters */
+  .posters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 4px;
+  }
+  .poster-slot {
+    aspect-ratio: 2/3;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    cursor: default; transition: border-color 0.3s;
+  }
+  .poster-slot:hover { border-color: var(--accent); }
+
+  /* Music covers */
+  .music-subnav {
+    display: flex; flex-wrap: wrap;
+    gap: 0.4rem; margin-bottom: 1.5rem;
+  }
+  .subnav-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.56rem; letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: none; cursor: pointer;
+    transition: all 0.25s;
+  }
+  .subnav-btn.active,
+  .subnav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .covers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 4px;
+  }
+  .cover-slot {
+    aspect-ratio: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    cursor: default; transition: border-color 0.3s;
+  }
+  .cover-slot:hover { border-color: var(--accent); }
+  .cover-slot.hidden { display: none; }
+
+  /* Hover overlay */
+  .slot-overlay {
+    position: absolute; inset: 0;
+    background: rgba(8,11,13,0.88);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s;
+    padding: 0.6rem; text-align: center;
+  }
+  .poster-slot:hover .slot-overlay,
+  .cover-slot:hover .slot-overlay { opacity: 1; }
+
+  .slot-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; color: var(--white);
+    line-height: 1.3; margin-bottom: 0.3rem;
+  }
+  .slot-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.46rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent);
+  }
+
+  /* Muso link */
+  .muso-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-muted);
+    text-decoration: none; margin-bottom: 2rem;
+    transition: color 0.25s;
+  }
+  .muso-link:hover { color: var(--accent); }
+
+  /* ─── CONTACT ─── */
+  .contact-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1; color: var(--white);
+    margin: 1rem 0 1.5rem;
+  }
+  .contact-heading em { font-style: italic; color: var(--accent); }
+
+  .contact-sub {
+    font-size: 1.05rem; color: var(--text-dim);
+    margin-bottom: 3rem; line-height: 1.7; max-width: 520px;
+  }
+
+  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; max-width: 600px; }
+
+  .contact-link {
+    display: flex; align-items: center; gap: 1.5rem;
+    text-decoration: none;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .contact-link:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+  .cl-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text-muted);
+    min-width: 80px;
+  }
+  .cl-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; color: var(--text);
+    transition: color 0.3s;
+  }
+  .contact-link:hover .cl-value { color: var(--accent); }
+  .cl-arrow { margin-left: auto; color: var(--text-muted); transition: all 0.3s; }
+  .contact-link:hover .cl-arrow { color: var(--accent); transform: translateX(4px); }
+
+  /* ─── FOOTER BAR ─── */
+  .page-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.15em;
+    color: var(--text-muted);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.75); }
+  }
+
+  .fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* page transition helpers */
+  .page { will-change: transform; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links button { font-size: 0.65rem; padding: 0.4rem 0.6rem; }
+    .page { padding: 2.5rem 1.25rem 4rem; }
+    .about-grid, .discipline-intro, .photo-intro { grid-template-columns: 1fr; gap: 2rem; }
+    .photo-slot.l, .photo-slot.m, .photo-slot.w { grid-column: span 12; }
+    .photo-slot.s { grid-column: span 6; }
+    .project-item { grid-template-columns: 1fr; gap: 0.4rem; }
+    .home-roles { flex-direction: column; gap: 1.5rem; }
+    .home-divider { display: none; }
+    .atmos-stats { gap: 1.5rem; }
+    .page-footer { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo" onclick="goTo(0);return false;">A·M·L</a>
+    <ul class="nav-links">
+      <li><button onclick="goTo(0)" class="active">Inicio</button></li>
+      <li><button onclick="goTo(1)">Sobre mí</button></li>
+      <li><button onclick="goTo(2)">Cine</button></li>
+      <li><button onclick="goTo(3)">Atmos</button></li>
+      <li><button onclick="goTo(4)">Mix & Master</button></li>
+      <li><button onclick="goTo(5)">Música</button></li>
+      <li><button onclick="goTo(6)">Fotografía</button></li>
+      <li><button onclick="goTo(7)">Proyectos</button></li>
+      <li><button onclick="goTo(8)">Contacto</button></li>
+    </ul>
+    <span class="nav-right" id="page-counter">01 / 09</span>
+  </nav>
+
+  <!-- VIEWPORT -->
+  <div id="viewport">
+    <div id="track">
+
+      <!-- 0 HOME -->
+      <div class="page" id="page-home">
+        <div class="film-strip" aria-hidden="true">
+          <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+          <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+          <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+          <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+          <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+          <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+          <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+          <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+        </div>
+
+        <p class="page-eyebrow" style="animation: fadeUp 1s 0.2s both;">Sound · Cinema · Photography · London</p>
+
+        <h1 class="home-name">
+          Arturo<br>Mena <em>León</em>
+        </h1>
+
+        <div class="home-roles">
+          <div class="roles-list">
+            <span>Audio Post · Re-recording Mixer</span>
+            <span>Dolby Atmos Mixer</span>
+            <span>Stereo Recording, Mixing, Mastering</span>
+            <span>Production Sound Mixer</span>
+            <span>Foley Artist</span>
+            <span>Percusionista · Baterista</span>
+            <span>Fotógrafo</span>
+          </div>
+          <div class="home-divider"></div>
+          <p class="home-tagline">El sonido que no se ve. La imagen que no se olvida.</p>
+        </div>
+
+        <div class="home-cta">
+          <button class="btn" onclick="goTo(1)">Explorar →</button>
+        </div>
+
+        <div class="page-footer">
+          <span>arturoménaleon.com</span>
+          <span>© 2025</span>
+        </div>
+      </div>
+
+      <!-- 1 ABOUT -->
+      <div class="page" id="page-about">
+        <p class="page-eyebrow fade-in">01 — Sobre mí</p>
+        <h2 class="page-title fade-in">Quién<br>soy <em>yo</em></h2>
+        <div class="section-rule"></div>
+
+        <div class="about-grid">
+          <div class="fade-in">
+            <span class="label">En números</span>
+            <div class="stats-block">
+              <div class="stat">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Años en audio</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">128</div>
+                <div class="stat-label">Canales Atmos</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">35</div>
+                <div class="stat-label">Mm analógico</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Por venir</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in">
+            <span class="label">Biografía</span>
+            <p class="bio">
+              Soy un profesional multidisciplinario con raíces profundas en el sonido cinematográfico y la música en vivo. Mi trabajo abarca desde la captura del sonido en locación hasta la mezcla final en <em>Dolby Atmos</em>, pasando por el foley, la edición de diálogos y la posproducción de imagen.
+              <br><br>
+              Paralelo al audio, soy baterista y percusionista, y encuentro en la fotografía analógica un contrapeso artístico a la precisión técnica del estudio. Trabajo desde <em>Londres</em>, pero los proyectos no tienen fronteras.
+            </p>
+          </div>
+        </div>
+
+        <div class="page-footer">
+          <span>Arturo Mena León</span>
+          <span><button class="btn" onclick="goTo(2)" style="padding:0.4rem 1rem;font-size:0.58rem;">Siguiente →</button></span>
+        </div>
+      </div>
+
+      <!-- 2 FILM AUDIO -->
+      <div class="page" id="page-film">
+        <p class="page-eyebrow fade-in">02 — Audio de Cine</p>
+        <h2 class="page-title fade-in">Del set<br>a la <em>sala</em></h2>
+        <div class="section-rule"></div>
+
+        <div class="discipline-intro">
+          <div class="fade-in">
+            <p class="discipline-desc">Capturo, edito y mezclo el sonido de la narrativa cinematográfica en todas sus etapas — desde el micrófono en locación hasta la entrega final de los masters.</p>
+            <div class="tags">
+              <span class="tag">Location Sound</span>
+              <span class="tag">Foley</span>
+              <span class="tag">ADR</span>
+              <span class="tag">Diálogos</span>
+              <span class="tag">DCP</span>
+              <span class="tag">Re-recording</span>
+            </div>
+          </div>
+          <div class="fade-in" style="font-style:italic;font-size:1.2rem;color:var(--text-dim);display:flex;align-items:center;">
+            "Cada película tiene un universo sonoro único. Mi trabajo es construirlo con coherencia."
+          </div>
+        </div>
+
+        <div class="services-grid fade-in">
+          <div class="service-card">
+            <p class="service-name">Production Sound</p>
+            <p class="service-desc">Grabación en locación, boom, lavs inalámbricos y gestión técnica del set.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Foley</p>
+            <p class="service-desc">Diseño y grabación de efectos de sala: pasos, texturas, manipulación de objetos.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Edición de Diálogos</p>
+            <p class="service-desc">Limpieza, sincronía y preparación de stems para la mezcla final.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Re-recording Mixing</p>
+            <p class="service-desc">Mezcla final para sala, OTT y distribución digital en múltiples formatos.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Dubbing Mixing</p>
+            <p class="service-desc">Mezcla de doblaje y ADR con coherencia tonal y espacial con la imagen.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Posproducción Integral</p>
+            <p class="service-desc">Supervisión completa desde el rodaje hasta la entrega de masters.</p>
+          </div>
+        </div>
+
+        <div class="page-footer">
+          <span>02 / 09</span>
+          <button class="btn" onclick="goTo(3)" style="padding:0.4rem 1rem;font-size:0.58rem;">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- 3 ATMOS -->
+      <div class="page" id="page-atmos">
+        <div class="atmos-content">
+          <p class="page-eyebrow fade-in">03 — Especialidad Principal</p>
+
+          <div class="atmos-badge fade-in">
+            <span class="atmos-dot"></span>
+            <span class="atmos-badge-text">Dolby Atmos Certified</span>
+          </div>
+
+          <h2 class="page-title fade-in" style="font-size:clamp(3rem,8vw,7rem);margin-bottom:1.5rem;">
+            El sonido tiene<br><em>altura.</em>
+          </h2>
+
+          <p class="atmos-body fade-in">
+            Mezclo en Dolby Atmos para música, cine y contenido inmersivo. Desde sesiones estéreo convertidas hasta mezclas nativas en 7.1.4, con entrega en formatos ADM, IMF y streaming.
+          </p>
+
+          <div class="atmos-stats fade-in">
+            <div class="ch-group">
+              <div class="ch-num">7.1.4</div>
+              <div class="ch-label">Config. principal</div>
+            </div>
+            <div class="ch-sep"></div>
+            <div class="ch-group">
+              <div class="ch-num">128</div>
+              <div class="ch-label">Canales de objeto</div>
+            </div>
+            <div class="ch-sep"></div>
+            <div class="ch-group">
+              <div class="ch-num">ADM</div>
+              <div class="ch-label">Formato de entrega</div>
+            </div>
+            <div class="ch-sep"></div>
+            <div class="ch-group">
+              <div class="ch-num">Pro Tools</div>
+              <div class="ch-label">DAW principal</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="players-section fade-in">
+          <span class="label">Muestras — Dolby Atmos</span>
+          <div class="players-grid">
+            <div class="player-item">
+              <p class="player-role">Dolby Atmos Mix</p>
+              <p class="player-title">Crooks Inc — Let Go</p>
+              <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/let-go/export" height="150" frameborder="0" scrolling="no" style="overflow:hidden"></iframe>
+            </div>
+            <div class="player-item">
+              <p class="player-role">Dolby Atmos Mix</p>
+              <p class="player-title">Rene Antonio — 2022</p>
+              <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/2022/export" height="150" frameborder="0" scrolling="no" style="overflow:hidden"></iframe>
+            </div>
+            <div class="player-item">
+              <p class="player-role">Dolby Atmos Mix</p>
+              <p class="player-title">Arni Montes — Dos noches raras</p>
+              <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/dos-noches-raras/export" height="150" frameborder="0" scrolling="no" style="overflow:hidden"></iframe>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-footer">
+          <span>03 / 09</span>
+          <button class="btn" onclick="goTo(4)" style="padding:0.4rem 1rem;font-size:0.58rem;">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- 4 MIX & MASTER -->
+      <div class="page" id="page-mix">
+        <p class="page-eyebrow fade-in">04 — Mix & Master</p>
+        <h2 class="page-title fade-in">Mix<br><em>&</em> Master</h2>
+        <div class="section-rule"></div>
+
+        <div class="discipline-intro">
+          <div class="fade-in">
+            <p class="discipline-desc">Mezcla estéreo y mastering para lanzamientos independientes, artistas y sellos. Sin compromisos en la cadena de señal.</p>
+            <div class="tags">
+              <span class="tag">Stereo Mix</span>
+              <span class="tag">Mastering</span>
+              <span class="tag">Stem Mixing</span>
+              <span class="tag">Pro Tools</span>
+            </div>
+          </div>
+          <div></div>
+        </div>
+
+        <div class="services-grid fade-in">
+          <div class="service-card">
+            <p class="service-name">Mezcla Estéreo</p>
+            <p class="service-desc">Balance, dinámica, espacialidad y color tonal desde demos hasta álbumes completos.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Mastering</p>
+            <p class="service-desc">Preparación para Spotify, Apple Music, YouTube y distribución física.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Stem Mixing</p>
+            <p class="service-desc">Mayor control y flexibilidad. Ideal para versiones alternativas y licenciamiento.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Proceso Colaborativo</p>
+            <p class="service-desc">Tu visión artística, mi criterio técnico. Revisiones incluidas en cada proyecto.</p>
+          </div>
+        </div>
+
+        <div class="page-footer">
+          <span>04 / 09</span>
+          <button class="btn" onclick="goTo(5)" style="padding:0.4rem 1rem;font-size:0.58rem;">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- 5 MUSIC -->
+      <div class="page" id="page-music">
+        <p class="page-eyebrow fade-in">05 — Música</p>
+        <h2 class="page-title fade-in">Percusión<br><em>&</em> Ritmo</h2>
+        <div class="section-rule"></div>
+
+        <div class="discipline-intro">
+          <div class="fade-in">
+            <p class="discipline-desc">Baterista y percusionista. El ritmo como lenguaje primario, la dinámica como narrativa. Disponible para sesiones, grabaciones y colaboraciones.</p>
+            <div class="tags">
+              <span class="tag">Batería</span>
+              <span class="tag">Percusión</span>
+              <span class="tag">Sesionista</span>
+              <span class="tag">Grabación</span>
+              <span class="tag">Live</span>
+            </div>
+          </div>
+          <div class="fade-in" style="font-style:italic;font-size:1.2rem;color:var(--text-dim);display:flex;align-items:center;">
+            "Ventaja única: músico que mezcla. La perspectiva del intérprete en cada decisión técnica del estudio."
+          </div>
+        </div>
+
+        <div class="services-grid fade-in">
+          <div class="service-card">
+            <p class="service-name">Sesiones de Batería</p>
+            <p class="service-desc">Rock, jazz, funk, latin, electrónico. Lectura de charts y trabajo de oído.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Percusión Adicional</p>
+            <p class="service-desc">Textura, color y ritmo más allá del kit estándar para producciones que lo requieren.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Colaboraciones</p>
+            <p class="service-desc">Abierto a proyectos de larga duración, bandas y artistas independientes.</p>
+          </div>
+          <div class="service-card">
+            <p class="service-name">Audio + Música</p>
+            <p class="service-desc">Músico y técnico en uno. Perspectiva doble en cada proyecto.</p>
+          </div>
+        </div>
+
+        <div class="page-footer">
+          <span>05 / 09</span>
+          <button class="btn" onclick="goTo(6)" style="padding:0.4rem 1rem;font-size:0.58rem;">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- 6 PHOTOGRAPHY -->
+      <div class="page" id="page-photo">
+        <p class="page-eyebrow fade-in">06 — Fotografía</p>
+        <h2 class="page-title fade-in">Analógico<br><em>35mm</em></h2>
+        <div class="section-rule"></div>
+
+        <div class="photo-intro">
+          <div class="fade-in">
+            <p class="discipline-desc">Fotografía analógica como práctica artística personal. Película de 35mm y medio formato. La imperfección química como lenguaje visual.</p>
+            <div class="tags">
+              <span class="tag">35mm</span>
+              <span class="tag">Analógico</span>
+              <span class="tag">Documentary</span>
+              <span class="tag">Portraiture</span>
+            </div>
+          </div>
+          <div class="fade-in" style="font-style:italic;font-size:1.2rem;color:var(--text-dim);display:flex;align-items:center;">
+            "La fotografía analógica no captura momentos — captura decisiones irreversibles."
+          </div>
+        </div>
+
+        <div class="gallery fade-in">
+          <div class="photo-slot l"><img src="Assets/img/analogue/000085530004.jpg" alt="Barcelona" loading="lazy"></div>
+          <div class="photo-slot m"><img src="Assets/img/analogue/86670037.JPG" alt="Náutico" loading="lazy"></div>
+          <div class="photo-slot s"><img src="Assets/img/analogue/86730013.JPG" alt="Puerta Londres" loading="lazy"></div>
+          <div class="photo-slot w"><img src="Assets/img/analogue/000085520028.jpg" alt="Puerto" loading="lazy"></div>
+          <div class="photo-slot s"><img src="Assets/img/analogue/86670032.JPG" alt="Espejo" loading="lazy"></div>
+          <div class="photo-slot m"><img src="Assets/img/analogue/41180022.JPG" alt="Puerta 72" loading="lazy"></div>
+          <div class="photo-slot l"><img src="Assets/img/analogue/86690026.JPG" alt="Librería neón" loading="lazy"></div>
+          <div class="photo-slot s"><img src="Assets/img/analogue/000085530016.jpg" alt="Lámparas" loading="lazy"></div>
+        </div>
+        <p class="photo-note fade-in">↑ 35mm analógico — selección de rollos 2023–2025</p>
+
+        <div class="page-footer">
+          <span>06 / 09</span>
+          <button class="btn" onclick="goTo(7)" style="padding:0.4rem 1rem;font-size:0.58rem;">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- 7 PROJECTS -->
+      <div class="page" id="page-projects">
+        <p class="page-eyebrow fade-in">07 — Proyectos</p>
+        <h2 class="page-title fade-in">Trabajo<br><em>destacado</em></h2>
+        <div class="section-rule"></div>
+
+        <a href="https://credits.muso.ai/profile/1c1522a0-a27a-43f8-ae18-5fbcb6132e48" target="_blank" class="muso-link fade-in">
+          Ver créditos completos en muso.ai →
+        </a>
+
+        <!-- Tabs -->
+        <div class="proj-tabs fade-in">
+          <button class="proj-tab active" data-tab="cine" onclick="filterProjects('cine')">Cine</button>
+          <button class="proj-tab" data-tab="musica" onclick="filterProjects('musica')">Música</button>
+        </div>
+
+        <!-- CINE -->
+        <div class="proj-panel active" data-panel="cine">
+          <div class="posters-grid">
+            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+          </div>
+        </div>
+
+        <!-- MÚSICA -->
+        <div class="proj-panel" data-panel="musica">
+          <div class="music-subnav">
+            <button class="subnav-btn active" data-role="all" onclick="filterMusic('all')">Todos</button>
+            <button class="subnav-btn" data-role="atmos" onclick="filterMusic('atmos')">Dolby Atmos</button>
+            <button class="subnav-btn" data-role="mix" onclick="filterMusic('mix')">Mix Estéreo</button>
+            <button class="subnav-btn" data-role="master" onclick="filterMusic('master')">Mastering</button>
+          </div>
+          <div class="covers-grid">
+            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
+            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
+            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
+            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
+            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
+            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
+            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
+            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
+            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
+            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
+            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
+            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
+            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
+            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
+            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
+            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
+            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
+          </div>
+        </div>
+
+        <div class="page-footer">
+          <span>07 / 09</span>
+          <button class="btn" onclick="goTo(8)" style="padding:0.4rem 1rem;font-size:0.58rem;">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- 8 CONTACT -->
+      <div class="page" id="page-contact">
+        <p class="page-eyebrow fade-in">08 — Contacto</p>
+
+        <h2 class="contact-heading fade-in">
+          Hablemos de tu<br><em>próximo proyecto.</em>
+        </h2>
+
+        <p class="contact-sub fade-in">
+          Basado en Londres. Disponible para proyectos remotos e internacionales.<br>Respondo en español e inglés.
+        </p>
+
+        <div class="contact-links">
+          <a href="mailto:arturomena159@gmail.com" class="contact-link fade-in">
+            <span class="cl-label">Email</span>
+            <span class="cl-value">arturomena159@gmail.com</span>
+            <span class="cl-arrow">→</span>
+          </a>
+          <a href="#" class="contact-link fade-in">
+            <span class="cl-label">LinkedIn</span>
+            <span class="cl-value">Arturo Mena León</span>
+            <span class="cl-arrow">→</span>
+          </a>
+          <a href="#" class="contact-link fade-in">
+            <span class="cl-label">Instagram</span>
+            <span class="cl-value">@arturo_mena.ptx</span>
+            <span class="cl-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="page-footer">
+          <span>Arturo Mena León · London © 2026</span>
+          <span>arturomenaleon.com</span>
+        </div>
+      </div>
+
+    </div><!-- /track -->
+  </div><!-- /viewport -->
+</div><!-- /app -->
+
+<script>
+  const track = document.getElementById('track');
+  const navBtns = document.querySelectorAll('.nav-links button');
+  const counter = document.getElementById('page-counter');
+  const pages = document.querySelectorAll('.page');
+  let current = 0;
+  let isAnimating = false;
+
+  function goTo(index) {
+    if (isAnimating || index === current) return;
+    if (index < 0 || index >= pages.length) return;
+
+    isAnimating = true;
+    current = index;
+
+    // slide
+    track.style.transform = `translateX(-${index * 100}vw)`;
+
+    // nav highlight
+    navBtns.forEach((b, i) => b.classList.toggle('active', i === index));
+
+    // counter
+    counter.textContent = `${String(index + 1).padStart(2,'0')} / ${String(pages.length).padStart(2,'0')}`;
+
+    // scroll to top of new page
+    setTimeout(() => {
+      pages[index].scrollTop = 0;
+      triggerFadeIns(pages[index]);
+      isAnimating = false;
+    }, 400);
+  }
+
+  function triggerFadeIns(page) {
+    const els = page.querySelectorAll('.fade-in');
+    els.forEach((el, i) => {
+      el.classList.remove('visible');
+      setTimeout(() => el.classList.add('visible'), 80 + i * 60);
+    });
+  }
+
+  // Keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+  });
+
+  // Touch / swipe
+  let touchStartX = 0;
+  let touchStartY = 0;
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    const dx = touchStartX - e.changedTouches[0].clientX;
+    const dy = Math.abs(touchStartY - e.changedTouches[0].clientY);
+    if (Math.abs(dx) > 50 && Math.abs(dx) > dy) {
+      goTo(dx > 0 ? current + 1 : current - 1);
+    }
+  }, { passive: true });
+
+  // Projects tabs
+  function filterProjects(tab) {
+    document.querySelectorAll('.proj-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('.proj-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tab));
+  }
+
+  // Music sub-filter
+  function filterMusic(role) {
+    document.querySelectorAll('.subnav-btn').forEach(b => b.classList.toggle('active', b.dataset.role === role));
+    document.querySelectorAll('.cover-slot').forEach(s => s.classList.toggle('hidden', role !== 'all' && s.dataset.role !== role));
+  }
+
+  // Init
+  triggerFadeIns(pages[0]);
+</script>
+</body>
+</html>
