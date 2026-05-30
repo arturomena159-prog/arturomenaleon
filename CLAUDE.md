@@ -29,14 +29,54 @@ Formato: `.player-item` con role + title encima, iframe height=150 scrolling=no,
 URL: `https://credits.muso.ai/profile/1c1522a0-a27a-43f8-ae18-5fbcb6132e48`
 No tiene embed — integrado como link en página Proyectos.
 
+## Imágenes del proyecto (Assets/img/)
+- `analogue film photo/` — 8 fotos analógicas para galería (página Fotografía)
+- `album covers/` — 15 portadas de álbumes para grid de Proyectos/Música
+- `film posters/` — 3 posters para grid de Proyectos/Cine
+
+### Grid Proyectos — Cine (3 películas)
+| Archivo | Título | Rol |
+|---------|--------|-----|
+| Green With Envy Poster.jpg | Green With Envy | Production Sound Mixer |
+| SAVI Poster.jpg | SAVI | Foley Mixer & Editor |
+| The suicide Poster.jpeg | The Suicide | Sound & Production Assistant |
+
+### Grid Proyectos — Música (15 álbumes)
+| Archivo | Artista — Álbum | Rol | Tab |
+|---------|-----------------|-----|-----|
+| Adan Cruz Adanxito.jpg | Adan Cruz — Adanxito | Dolby Atmos Engineer | atmos |
+| Adan Cruz Adrian Marcelo.jpg | Adan Cruz — Adrián Marcelo | Dolby Atmos Engineer | atmos |
+| Miss Blanche Devuelveme a mi Chica.jpg | Miss Blanche — Devuélveme a mi Chica | Dolby Atmos Mixing | atmos |
+| Rene Antonio 2024.jpg | Rene Antonio — 2024 | Dolby Atmos Mixing | atmos |
+| Sultan El Inicio.jpg | Sultan — El Inicio | Dolby Atmos & Stereo Mix | atmos |
+| Nate Skies Make it Out.jpg | Nate Skies — Make It Out | Mixing & Mastering | mix |
+| Nate Skies Scarz.jpg | Nate Skies — Scarz | Mixing & Mastering | mix |
+| Marly Marly Lo Siento Pero no lo Siento.jpg | Marly — Lo Siento Pero No Lo Siento | Stereo Mix | mix |
+| Luis Fernando Donde Estas Amor.jpg | Luis Fernando — Donde Estás Amor | Recording & Mixing | mix |
+| Adan Cruz Aja.jpg | Adan Cruz — Aja | Mixing & Recording | mix |
+| Adan Cruz Otro Destino.jpg | Adan Cruz — Otro Destino | Assistant Recording | assistant |
+| Aleman El Terre.jpg | Alemán — El Terre | Assistant Recording | assistant |
+| Gran Silencio Mexico Sabroso.jpg | Gran Silencio — México Sabroso | Assistant Recording | assistant |
+| Javie Lopez Clasicos en Vivo.jpg | Javier López — Clásicos en Vivo | Assistant Recording | assistant |
+| Marly Marly Arigato.jpg | Marly — Arigato | Assistant Recording | assistant |
+
+Los tabs de música son: Todos / Dolby Atmos (`data-role="atmos"`) / Mezcla (`data-role="mix"`) / Asistente (`data-role="assistant"`)
+
+## Palette y diseño
+- `--bg: #1d2b36` — slate-oceánico cinematic. No negro puro (muy oscuro), no azul claro (ilegible).
+- Body tiene radial-gradient sutil para evitar azul sólido
+- Home page usa spacer div + `flex-direction: column` (sin `justify-content: flex-end` — causaba que el nombre se recortara)
+- Usar **"Dolby Atmos Mixing"** (nunca "Immersive Mixing") — término correcto en la industria
+- Organizar portfolio musical **por rol** (Atmos / Mezcla / Asistente), no por género
+
 ## Pendiente completar
-- Portadas reales para grid de Proyectos (Cine: 8 slots, Música: 17 slots por rol: Atmos/Mix/Master)
+- Cuadros vacíos en algunas subsecciones (pendiente identificar y eliminar)
 - Embeds SoundToggle para Mix & Master (mezclas estéreo)
 - Links reales de LinkedIn e Instagram en Contacto
-- `href="mailto:..."` en Contacto todavía en placeholder
+- Verificar `href="mailto:arturomena159@gmail.com"` en Contacto
 
 ## Preferencias de diseño
 - Menos es más: embeds compactos, sin cajas pesadas alrededor
-- Organización por rol (no por género) en portfolios técnicos
 - Explicaciones pedagógicas pero breves después de cada cambio
 - Para añadir un player nuevo: copiar un `.player-item` y cambiar el `src=` del iframe
+- Para añadir portada al grid: copiar un `.cover-slot` o `.poster-slot`, cambiar el `style="background-image:url(...)"` y el texto del overlay
