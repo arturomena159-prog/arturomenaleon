@@ -8,17 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #080b0d;
-    --surface:   #0d1215;
-    --surface2:  #111820;
-    --border:    #1a2530;
+    --bg:        #1d2b36;
+    --surface:   #162330;
+    --surface2:  #0f1a24;
+    --border:    #1e3040;
     --accent:    #5ba3a0;
     --accent2:   #7ec8c4;
     --accent-dim: rgba(91,163,160,0.12);
     --accent-glow: rgba(91,163,160,0.06);
-    --text:      #dce8e8;
-    --text-dim:  #6a8a8a;
-    --text-muted:#2e4848;
+    --text:      #d0e4e4;
+    --text-dim:  #7a9aaa;
+    --text-muted:#3d5a6a;
     --white:     #eef4f4;
   }
 
@@ -26,7 +26,10 @@
   html, body { width: 100%; height: 100%; overflow: hidden; }
 
   body {
-    background: var(--bg);
+    background:
+      radial-gradient(ellipse 110% 65% at 18% 8%, rgba(38,62,80,0.65) 0%, transparent 55%),
+      radial-gradient(ellipse 85% 85% at 88% 92%, rgba(8,18,28,0.75) 0%, transparent 50%),
+      #1d2b36;
     color: var(--text);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 18px;
@@ -212,8 +215,8 @@
   #page-home {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
   }
+  .home-spacer { flex: 1; min-height: 0; }
 
   /* film strip */
   .film-strip {
@@ -560,6 +563,8 @@
   .poster-slot {
     aspect-ratio: 2/3;
     background: var(--surface2);
+    background-size: cover;
+    background-position: center;
     border: 1px solid var(--border);
     position: relative; overflow: hidden;
     cursor: default; transition: border-color 0.3s;
@@ -592,6 +597,8 @@
   .cover-slot {
     aspect-ratio: 1;
     background: var(--surface2);
+    background-size: cover;
+    background-position: center;
     border: 1px solid var(--border);
     position: relative; overflow: hidden;
     cursor: default; transition: border-color 0.3s;
@@ -756,6 +763,8 @@
           <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
           <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
         </div>
+
+        <div class="home-spacer"></div>
 
         <p class="page-eyebrow" style="animation: fadeUp 1s 0.2s both;">Sound · Cinema · Photography · London</p>
 
@@ -972,7 +981,9 @@
               <span class="tag">Pro Tools</span>
             </div>
           </div>
-          <div></div>
+          <div class="fade-in" style="font-style:italic;font-size:1.2rem;color:var(--text-dim);display:flex;align-items:center;">
+            "El detalle técnico al servicio del artista. La mezcla que no se nota pero se siente."
+          </div>
         </div>
 
         <div class="services-grid fade-in">
@@ -1105,14 +1116,9 @@
         <!-- CINE -->
         <div class="proj-panel active" data-panel="cine">
           <div class="posters-grid">
-            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
-            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
-            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
-            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
-            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
-            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
-            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
-            <div class="poster-slot"><div class="slot-overlay"><p class="slot-name">Título del proyecto</p><p class="slot-role">Tu rol</p></div></div>
+            <div class="poster-slot" style="background-image:url('Assets/img/film%20posters/Green%20With%20Envy%20Poster.jpg')"><div class="slot-overlay"><p class="slot-name">Green With Envy</p><p class="slot-role">Production Sound Mixer</p></div></div>
+            <div class="poster-slot" style="background-image:url('Assets/img/film%20posters/SAVI%20Poster.jpg')"><div class="slot-overlay"><p class="slot-name">SAVI</p><p class="slot-role">Foley Mixer & Editor</p></div></div>
+            <div class="poster-slot" style="background-image:url('Assets/img/film%20posters/The%20suicide%20Poster.jpeg')"><div class="slot-overlay"><p class="slot-name">The Suicide</p><p class="slot-role">Sound & Production Assistant</p></div></div>
           </div>
         </div>
 
@@ -1121,27 +1127,25 @@
           <div class="music-subnav">
             <button class="subnav-btn active" data-role="all" onclick="filterMusic('all')">Todos</button>
             <button class="subnav-btn" data-role="atmos" onclick="filterMusic('atmos')">Dolby Atmos</button>
-            <button class="subnav-btn" data-role="mix" onclick="filterMusic('mix')">Mix Estéreo</button>
-            <button class="subnav-btn" data-role="master" onclick="filterMusic('master')">Mastering</button>
+            <button class="subnav-btn" data-role="mix" onclick="filterMusic('mix')">Mezcla</button>
+            <button class="subnav-btn" data-role="assistant" onclick="filterMusic('assistant')">Asistente</button>
           </div>
           <div class="covers-grid">
-            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
-            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
-            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
-            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
-            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
-            <div class="cover-slot" data-role="atmos"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Dolby Atmos</p></div></div>
-            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
-            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
-            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
-            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
-            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
-            <div class="cover-slot" data-role="mix"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mix Estéreo</p></div></div>
-            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
-            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
-            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
-            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
-            <div class="cover-slot" data-role="master"><div class="slot-overlay"><p class="slot-name">Artista — Canción</p><p class="slot-role">Mastering</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album%20covers/Adan%20Cruz%20Adanxito.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz — Adanxito</p><p class="slot-role">Dolby Atmos Engineer</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album%20covers/Adan%20Cruz%20Adrian%20Marcelo.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz — Adrián Marcelo</p><p class="slot-role">Dolby Atmos Engineer</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album%20covers/Miss%20Blanche%20Devuelveme%20a%20mi%20Chica.jpg')"><div class="slot-overlay"><p class="slot-name">Miss Blanche — Devuélveme a mi Chica</p><p class="slot-role">Dolby Atmos Mixing</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album%20covers/Rene%20Antonio%202024.jpg')"><div class="slot-overlay"><p class="slot-name">Rene Antonio — 2024</p><p class="slot-role">Dolby Atmos Mixing</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album%20covers/Sultan%20El%20Inicio.jpg')"><div class="slot-overlay"><p class="slot-name">Sultan — El Inicio</p><p class="slot-role">Dolby Atmos & Stereo Mix</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album%20covers/Nate%20Skies%20Make%20it%20Out.jpg')"><div class="slot-overlay"><p class="slot-name">Nate Skies — Make It Out</p><p class="slot-role">Mixing & Mastering</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album%20covers/Nate%20Skies%20Scarz.jpg')"><div class="slot-overlay"><p class="slot-name">Nate Skies — Scarz</p><p class="slot-role">Mixing & Mastering</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album%20covers/Marly%20Marly%20Lo%20Siento%20Pero%20no%20lo%20Siento.jpg')"><div class="slot-overlay"><p class="slot-name">Marly — Lo Siento Pero No Lo Siento</p><p class="slot-role">Stereo Mix</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album%20covers/Luis%20Fernando%20Donde%20Estas%20Amor.jpg')"><div class="slot-overlay"><p class="slot-name">Luis Fernando — Donde Estás Amor</p><p class="slot-role">Recording & Mixing</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album%20covers/Adan%20Cruz%20Aja.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz — Aja</p><p class="slot-role">Mixing & Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album%20covers/Adan%20Cruz%20Otro%20Destino.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz — Otro Destino</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album%20covers/Aleman%20El%20Terre.jpg')"><div class="slot-overlay"><p class="slot-name">Alemán — El Terre</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album%20covers/Gran%20Silencio%20Mexico%20Sabroso.jpg')"><div class="slot-overlay"><p class="slot-name">Gran Silencio — México Sabroso</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album%20covers/Javie%20Lopez%20Clasicos%20en%20Vivo.jpg')"><div class="slot-overlay"><p class="slot-name">Javier López — Clásicos en Vivo</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album%20covers/Marly%20Marly%20Arigato.jpg')"><div class="slot-overlay"><p class="slot-name">Marly — Arigato</p><p class="slot-role">Assistant Recording</p></div></div>
           </div>
         </div>
 
