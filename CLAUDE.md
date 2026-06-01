@@ -69,14 +69,36 @@ Los tabs de música son: Todos / Dolby Atmos (`data-role="atmos"`) / Mezcla (`da
 - Usar **"Dolby Atmos Mixing"** (nunca "Immersive Mixing") — término correcto en la industria
 - Organizar portfolio musical **por rol** (Atmos / Mezcla / Asistente), no por género
 
+## Fotos personales (Assets/img/On Set/)
+- `headshot-gear.jpeg` — close-up trabajando con cables, oscuro, dramático. Usado en Sobre mí.
+- `boom-greenhouse.jpeg` — Arturo sonriendo con boom en invernadero. Usado en Cine.
+- `clap-greenhouse-1/2.jpeg`, `set-field-crew.jpeg`, `set-boom-wide.jpeg`, `set-greenhouse-1/2.jpeg` — fotos de rodaje extra
+- `set-video.mp4` — video de set (no integrado aún)
+
+## Work Photo Frame (.work-photo)
+Para integrar fotos al diseño sin que "floten": border fino + caption label abajo.
+```html
+<div class="work-photo">
+  <img src="ruta/foto.jpg" alt="descripción">
+  <p class="work-photo-caption">Etiqueta corta</p>
+</div>
+```
+Hover: border turquesa + imagen a color completo. Usar para cualquier foto de trabajo nueva.
+
+## Fondo dinámico animado
+- `.bg-shift-1` y `.bg-shift-2`: overlays de color que hacen fade suave (32s/44s, desfasados)
+- `.bg-blob-1/2/3`: blobs turquesa con trayectorias independientes (38s/52s/44s)
+- Todos usan opacity animation para máxima suavidad (GPU composited, sin stepped)
+- Los divs van justo después de `<body>`, antes de `<div id="app">`
+
 ## Pendiente completar
-- Cuadros vacíos en algunas subsecciones (pendiente identificar y eliminar)
 - Embeds SoundToggle para Mix & Master (mezclas estéreo)
 - Links reales de LinkedIn e Instagram en Contacto
-- Verificar `href="mailto:arturomena159@gmail.com"` en Contacto
+- Headshot profesional para reemplazar headshot-gear.jpeg en Sobre mí
 
 ## Preferencias de diseño
 - Menos es más: embeds compactos, sin cajas pesadas alrededor
 - Explicaciones pedagógicas pero breves después de cada cambio
 - Para añadir un player nuevo: copiar un `.player-item` y cambiar el `src=` del iframe
 - Para añadir portada al grid: copiar un `.cover-slot` o `.poster-slot`, cambiar el `style="background-image:url(...)"` y el texto del overlay
+- Para fotos de trabajo: usar siempre `.work-photo` con caption para que se integren al diseño
