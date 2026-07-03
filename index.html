@@ -38,6 +38,10 @@
   }
 
   /* GRAIN */
+  @keyframes grainAnim {
+    from { background-position: 0 0; }
+    to   { background-position: 256px 256px; }
+  }
   body::before {
     content: '';
     position: fixed;
@@ -47,6 +51,9 @@
     z-index: 9999;
     opacity: 0.5;
     mix-blend-mode: overlay;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    body::before { animation: grainAnim 0.5s steps(8) infinite; }
   }
 
   ::-webkit-scrollbar { width: 3px; }
@@ -833,8 +840,9 @@
     .nav-links button { font-size: 0.65rem; padding: 0.4rem 0.6rem; }
     .page { padding: 2.5rem 1.25rem 4rem; }
     .about-grid, .discipline-intro, .photo-intro { grid-template-columns: 1fr; gap: 2rem; }
-    .photo-slot.l, .photo-slot.m, .photo-slot.w { grid-column: span 12; }
-    .photo-slot.s { grid-column: span 6; }
+    .photo-slot.l, .photo-slot.m, .photo-slot.s, .photo-slot.w { grid-column: span 12; }
+    .covers-grid { grid-template-columns: repeat(2, 1fr); }
+    .posters-grid { grid-template-columns: repeat(2, 1fr); }
     .project-item { grid-template-columns: 1fr; gap: 0.4rem; }
     .home-roles { flex-direction: column; gap: 1.5rem; }
     .home-divider { display: none; }
@@ -935,6 +943,52 @@
     transition: color 0.25s, border-color 0.25s;
   }
   .st-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ─── MEDIA FRAME (figure/figcaption) ─── */
+  figure.media-frame {
+    display: inline-block;
+    border: 1px solid var(--border);
+    margin-bottom: 1.75rem;
+    transition: border-color 0.3s;
+  }
+  figure.media-frame:hover { border-color: var(--accent); }
+  figure.media-frame img {
+    display: block;
+    width: 240px;
+    height: 300px;
+    object-fit: cover;
+    object-position: center 20%;
+    filter: grayscale(15%);
+    transition: filter 0.4s;
+  }
+  figure.media-frame:hover img { filter: grayscale(0%); }
+  figure.media-frame figcaption {
+    padding: 0.45rem 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Gallery photo caption */
+  .photo-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.3rem 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.44rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(8,11,13,0.65);
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .photo-slot:hover .photo-caption { opacity: 1; }
 </style>
 </head>
 <body>
@@ -1037,10 +1091,10 @@
 
         <div class="about-grid">
           <div class="fade-in">
-            <div class="work-photo">
+            <figure class="media-frame">
               <img src="Assets/img/On Set/headshot-gear.jpeg" alt="Arturo Mena León">
-              <p class="work-photo-caption">Londres, 2025</p>
-            </div>
+              <figcaption>Londres, 2025</figcaption>
+            </figure>
             <span class="label">En números</span>
             <div class="stats-block">
               <div class="stat">
@@ -1097,10 +1151,10 @@
             </div>
           </div>
           <div class="fade-in" style="display:flex;justify-content:center;align-items:center;">
-            <div class="work-photo">
+            <figure class="media-frame">
               <img src="Assets/img/On Set/boom-greenhouse.jpeg" alt="On set — Production Sound">
-              <p class="work-photo-caption">Production Sound · On set</p>
-            </div>
+              <figcaption>Production Sound · On set</figcaption>
+            </figure>
           </div>
         </div>
 
@@ -1323,14 +1377,14 @@
         </div>
 
         <div class="gallery fade-in">
-          <div class="photo-slot l"><img src="Assets/img/analogue film photo/000085530004.jpg" alt="Barcelona" loading="lazy"></div>
-          <div class="photo-slot m"><img src="Assets/img/analogue film photo/86670037.JPG" alt="Náutico" loading="lazy"></div>
-          <div class="photo-slot s"><img src="Assets/img/analogue film photo/86730013.JPG" alt="Puerta Londres" loading="lazy"></div>
-          <div class="photo-slot w"><img src="Assets/img/analogue film photo/000085520028.jpg" alt="Puerto" loading="lazy"></div>
-          <div class="photo-slot s"><img src="Assets/img/analogue film photo/86670032.JPG" alt="Espejo" loading="lazy"></div>
-          <div class="photo-slot m"><img src="Assets/img/analogue film photo/41180022.JPG" alt="Puerta 72" loading="lazy"></div>
-          <div class="photo-slot l"><img src="Assets/img/analogue film photo/86690026.JPG" alt="Librería neón" loading="lazy"></div>
-          <div class="photo-slot s"><img src="Assets/img/analogue film photo/000085530016.jpg" alt="Lámparas" loading="lazy"></div>
+          <div class="photo-slot l"><img src="Assets/img/analogue film photo/000085530004.jpg" alt="Barcelona" loading="lazy"><span class="photo-caption">35mm · Barcelona</span></div>
+          <div class="photo-slot m"><img src="Assets/img/analogue film photo/86670037.JPG" alt="Náutico" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
+          <div class="photo-slot s"><img src="Assets/img/analogue film photo/86730013.JPG" alt="Puerta Londres" loading="lazy"><span class="photo-caption">35mm · London</span></div>
+          <div class="photo-slot w"><img src="Assets/img/analogue film photo/000085520028.jpg" alt="Puerto" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
+          <div class="photo-slot s"><img src="Assets/img/analogue film photo/86670032.JPG" alt="Espejo" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
+          <div class="photo-slot m"><img src="Assets/img/analogue film photo/41180022.JPG" alt="Puerta 72" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
+          <div class="photo-slot l"><img src="Assets/img/analogue film photo/86690026.JPG" alt="Librería neón" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
+          <div class="photo-slot s"><img src="Assets/img/analogue film photo/000085530016.jpg" alt="Lámparas" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
         </div>
         <p class="photo-note fade-in">↑ 35mm analógico — selección de rollos 2023–2025</p>
 
