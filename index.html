@@ -8,18 +8,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #1d2b36;
-    --surface:   #162330;
-    --surface2:  #0f1a24;
-    --border:    #1e3040;
-    --accent:    #5ba3a0;
-    --accent2:   #7ec8c4;
-    --accent-dim: rgba(91,163,160,0.12);
-    --accent-glow: rgba(91,163,160,0.06);
-    --text:      #d0e4e4;
-    --text-dim:  #7a9aaa;
-    --text-muted:#3d5a6a;
-    --white:     #eef4f4;
+    --bg:        #1b2419;
+    --surface:   #141d12;
+    --surface2:  #0e1609;
+    --border:    #2e4030;
+    --accent:    #8aada5;
+    --accent2:   #f9dd9c;
+    --accent-dim: rgba(138,173,165,0.12);
+    --accent-glow: rgba(138,173,165,0.06);
+    --text:      #dfdabe;
+    --text-dim:  #a8b89e;
+    --text-muted:#4a6350;
+    --white:     #f5f0e8;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,9 +27,9 @@
 
   body {
     background-image:
-      radial-gradient(ellipse 110% 65% at 18% 8%, rgba(38,62,80,0.65) 0%, transparent 55%),
-      radial-gradient(ellipse 85% 85% at 88% 92%, rgba(8,18,28,0.75) 0%, transparent 50%);
-    background-color: #1d2b36;
+      radial-gradient(ellipse 110% 65% at 18% 8%, rgba(40,65,35,0.65) 0%, transparent 55%),
+      radial-gradient(ellipse 85% 85% at 88% 92%, rgba(8,20,8,0.75) 0%, transparent 50%);
+    background-color: #1b2419;
     color: var(--text);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 18px;
@@ -79,7 +79,7 @@
     justify-content: space-between;
     padding: 1.4rem 3rem;
     border-bottom: 1px solid var(--border);
-    background: rgba(8,11,13,0.97);
+    background: rgba(8,13,7,0.97);
     backdrop-filter: blur(12px);
     z-index: 100;
     position: relative;
@@ -177,8 +177,8 @@
 
   #page-home::before {
     background:
-      radial-gradient(ellipse 55% 45% at 75% 35%, rgba(91,163,160,0.05) 0%, transparent 65%),
-      radial-gradient(ellipse 35% 55% at 20% 75%, rgba(91,163,160,0.03) 0%, transparent 55%);
+      radial-gradient(ellipse 55% 45% at 75% 35%, rgba(138,173,165,0.06) 0%, transparent 65%),
+      radial-gradient(ellipse 35% 55% at 20% 75%, rgba(249,221,156,0.04) 0%, transparent 55%);
   }
 
   /* ─── COMMON ─── */
@@ -437,7 +437,7 @@
     font-size: clamp(7rem, 18vw, 16rem);
     font-weight: 800;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(91,163,160,0.07);
+    -webkit-text-stroke: 1px rgba(138,173,165,0.07);
     white-space: nowrap;
     pointer-events: none;
     letter-spacing: -0.05em;
@@ -449,7 +449,7 @@
   .atmos-badge {
     display: inline-flex; align-items: center; gap: 0.75rem;
     padding: 0.45rem 1.2rem;
-    border: 1px solid rgba(91,163,160,0.35);
+    border: 1px solid rgba(138,173,165,0.35);
     margin-bottom: 2.5rem;
   }
   .atmos-dot {
@@ -764,14 +764,14 @@
   .bg-shift-1 {
     position: fixed; inset: 0; z-index: 0;
     pointer-events: none;
-    background: #1a3040;
+    background: #1a3022;
     opacity: 0;
     animation: colorFade1 32s linear infinite;
   }
   .bg-shift-2 {
     position: fixed; inset: 0; z-index: 0;
     pointer-events: none;
-    background: #1f2838;
+    background: #201e12;
     opacity: 0;
     animation: colorFade2 44s linear infinite;
     animation-delay: -20s;
@@ -809,18 +809,18 @@
   }
   .bg-blob-1 {
     inset: -40%; width: 180%; height: 180%;
-    background: radial-gradient(ellipse 35% 35% at 30% 35%, rgba(91,163,160,0.06) 0%, transparent 65%);
+    background: radial-gradient(ellipse 35% 35% at 30% 35%, rgba(138,173,165,0.07) 0%, transparent 65%);
     animation: blobDrift1 38s ease-in-out infinite;
   }
   .bg-blob-2 {
     inset: -40%; width: 180%; height: 180%;
-    background: radial-gradient(ellipse 28% 28% at 70% 60%, rgba(91,163,160,0.04) 0%, transparent 60%);
+    background: radial-gradient(ellipse 28% 28% at 70% 60%, rgba(216,180,176,0.05) 0%, transparent 60%);
     animation: blobDrift2 52s ease-in-out infinite;
     animation-delay: -18s;
   }
   .bg-blob-3 {
     inset: -40%; width: 180%; height: 180%;
-    background: radial-gradient(ellipse 22% 22% at 50% 80%, rgba(91,163,160,0.035) 0%, transparent 60%);
+    background: radial-gradient(ellipse 22% 22% at 50% 80%, rgba(249,221,156,0.05) 0%, transparent 60%);
     animation: blobDrift3 44s ease-in-out infinite;
     animation-delay: -30s;
   }
@@ -884,7 +884,7 @@
   .mobile-menu {
     position: fixed;
     inset: 0;
-    background: rgba(8,11,13,0.97);
+    background: rgba(8,13,7,0.97);
     z-index: 150;
     display: flex;
     flex-direction: column;
