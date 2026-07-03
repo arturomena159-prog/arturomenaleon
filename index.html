@@ -841,6 +841,100 @@
     .atmos-stats { gap: 1.5rem; }
     .page-footer { flex-direction: column; gap: 0.5rem; }
   }
+
+  /* ─── NAV MÓVIL — 900px ─── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-right { display: none; }
+    .hamburger { display: flex; }
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 200;
+    flex-shrink: 0;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: var(--text-dim);
+    transition: transform 0.3s, opacity 0.3s, background 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); background: var(--accent); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); background: var(--accent); }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,11,13,0.97);
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 5rem 2.5rem;
+    backdrop-filter: blur(14px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: auto; }
+
+  .mn-inner { display: flex; flex-direction: column; }
+  .mn-item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 7vw, 3rem);
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    transition: color 0.2s;
+    padding: 0.2rem 0;
+    text-align: left;
+  }
+  .mn-item:hover { color: var(--white); }
+  .mn-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    font-weight: 400;
+    flex-shrink: 0;
+    width: 2.2em;
+  }
+
+  .st-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+    transition: color 0.25s, border-color 0.25s;
+  }
+  .st-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
 </style>
 </head>
 <body>
@@ -866,7 +960,25 @@
       <li><button onclick="goTo(8)">Contacto</button></li>
     </ul>
     <span class="nav-right" id="page-counter">01 / 09</span>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Navegación" aria-hidden="true">
+    <div class="mn-inner">
+      <button class="mn-item" onclick="goToMobile(0)"><span class="mn-num">00</span> Inicio</button>
+      <button class="mn-item" onclick="goToMobile(1)"><span class="mn-num">01</span> Sobre mí</button>
+      <button class="mn-item" onclick="goToMobile(2)"><span class="mn-num">02</span> Cine</button>
+      <button class="mn-item" onclick="goToMobile(3)"><span class="mn-num">03</span> Atmos</button>
+      <button class="mn-item" onclick="goToMobile(4)"><span class="mn-num">04</span> Mix & Master</button>
+      <button class="mn-item" onclick="goToMobile(5)"><span class="mn-num">05</span> Música</button>
+      <button class="mn-item" onclick="goToMobile(6)"><span class="mn-num">06</span> Fotografía</button>
+      <button class="mn-item" onclick="goToMobile(7)"><span class="mn-num">07</span> Proyectos</button>
+      <button class="mn-item" onclick="goToMobile(8)"><span class="mn-num">08</span> Contacto</button>
+    </div>
+  </div>
 
   <!-- VIEWPORT -->
   <div id="viewport">
@@ -912,8 +1024,8 @@
         </div>
 
         <div class="page-footer">
-          <span>arturoménaleon.com</span>
-          <span>© 2025</span>
+          <span>arturomenaleon.com</span>
+          <span>© <span class="year-dyn"></span></span>
         </div>
       </div>
 
@@ -1073,16 +1185,19 @@
               <p class="player-role">Dolby Atmos Mix</p>
               <p class="player-title">Crooks Inc — Let Go</p>
               <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/let-go/export" height="150" frameborder="0" scrolling="no" style="overflow:hidden"></iframe>
+              <a href="https://soundtoggle.io/ColMena159/let-go" class="st-link" target="_blank" rel="noopener noreferrer">Escuchar en SoundToggle →</a>
             </div>
             <div class="player-item">
               <p class="player-role">Dolby Atmos Mix</p>
               <p class="player-title">Rene Antonio — 2022</p>
               <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/2022/export" height="150" frameborder="0" scrolling="no" style="overflow:hidden"></iframe>
+              <a href="https://soundtoggle.io/ColMena159/2022" class="st-link" target="_blank" rel="noopener noreferrer">Escuchar en SoundToggle →</a>
             </div>
             <div class="player-item">
               <p class="player-role">Dolby Atmos Mix</p>
               <p class="player-title">Arni Montes — Dos noches raras</p>
               <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/dos-noches-raras/export" height="150" frameborder="0" scrolling="no" style="overflow:hidden"></iframe>
+              <a href="https://soundtoggle.io/ColMena159/dos-noches-raras" class="st-link" target="_blank" rel="noopener noreferrer">Escuchar en SoundToggle →</a>
             </div>
           </div>
         </div>
@@ -1301,12 +1416,12 @@
             <span class="cl-value">arturomena159@gmail.com</span>
             <span class="cl-arrow">→</span>
           </a>
-          <a href="#" class="contact-link fade-in">
+          <a href="https://www.linkedin.com/in/arturo-mena-81944a258" target="_blank" rel="noopener noreferrer" class="contact-link fade-in">
             <span class="cl-label">LinkedIn</span>
             <span class="cl-value">Arturo Mena León</span>
             <span class="cl-arrow">→</span>
           </a>
-          <a href="#" class="contact-link fade-in">
+          <a href="https://www.instagram.com/arturo_mena.ptx" target="_blank" rel="noopener noreferrer" class="contact-link fade-in">
             <span class="cl-label">Instagram</span>
             <span class="cl-value">@arturo_mena.ptx</span>
             <span class="cl-arrow">→</span>
@@ -1314,7 +1429,7 @@
         </div>
 
         <div class="page-footer">
-          <span>Arturo Mena León · London © 2026</span>
+          <span>Arturo Mena León · London © <span class="year-dyn"></span></span>
           <span>arturomenaleon.com</span>
         </div>
       </div>
@@ -1367,6 +1482,7 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
     if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+    if (e.key === 'Escape') { const m = document.getElementById('mobile-menu'); if (m.classList.contains('open')) toggleMenu(); }
   });
 
   // Touch / swipe
@@ -1396,6 +1512,25 @@
     document.querySelectorAll('.subnav-btn').forEach(b => b.classList.toggle('active', b.dataset.role === role));
     document.querySelectorAll('.cover-slot').forEach(s => s.classList.toggle('hidden', role !== 'all' && s.dataset.role !== role));
   }
+
+  // Mobile menu
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('hamburger');
+    const isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', String(isOpen));
+    menu.setAttribute('aria-hidden', String(!isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  function goToMobile(index) {
+    toggleMenu();
+    setTimeout(() => goTo(index), 320);
+  }
+
+  // Año dinámico
+  document.querySelectorAll('.year-dyn').forEach(el => el.textContent = new Date().getFullYear());
 
   // Init
   triggerFadeIns(pages[0]);
