@@ -8,17 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #1c1a16;
-    --surface:   #161410;
-    --surface2:  #110f0b;
-    --border:    #38322a;
+    --bg:        #16150f;
+    --surface:   #111009;
+    --surface2:  #0c0b06;
+    --border:    rgba(216,180,176,0.22);
     --accent:    #8aada5;
     --accent2:   #f9dd9c;
     --accent-dim: rgba(138,173,165,0.12);
-    --accent-glow: rgba(138,173,165,0.06);
+    --accent-glow: rgba(249,221,156,0.07);
     --text:      #dfdabe;
-    --text-dim:  #b0a890;
-    --text-muted:#5a5040;
+    --text-dim:  #b0a088;
+    --text-muted:#665848;
     --white:     #f5f0e8;
   }
 
@@ -27,9 +27,9 @@
 
   body {
     background-image:
-      radial-gradient(ellipse 110% 65% at 18% 8%, rgba(60,50,35,0.65) 0%, transparent 55%),
-      radial-gradient(ellipse 85% 85% at 88% 92%, rgba(10,8,5,0.75) 0%, transparent 50%);
-    background-color: #1c1a16;
+      radial-gradient(ellipse 110% 65% at 18% 8%, rgba(138,173,165,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse 85% 85% at 88% 92%, rgba(249,221,156,0.07) 0%, transparent 50%);
+    background-color: #16150f;
     color: var(--text);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 18px;
@@ -46,14 +46,14 @@
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.18;
+    opacity: 0.08;
     mix-blend-mode: screen;
   }
   @media (prefers-reduced-motion: no-preference) {
-    body::before { animation: grainAnim 0.5s steps(8) infinite; }
+    body::before { animation: grainAnim 2s steps(8) infinite; }
   }
 
   ::-webkit-scrollbar { width: 3px; }
@@ -806,21 +806,28 @@
   .bg-blob {
     position: fixed; z-index: 0;
     pointer-events: none; will-change: transform;
+    border-radius: 50%;
   }
   .bg-blob-1 {
-    inset: -40%; width: 180%; height: 180%;
-    background: radial-gradient(ellipse 35% 35% at 30% 35%, rgba(138,173,165,0.07) 0%, transparent 65%);
+    width: 70vw; height: 70vw;
+    top: -25vh; left: -15vw;
+    background: radial-gradient(circle, rgba(138,173,165,0.28) 0%, transparent 70%);
+    filter: blur(80px);
     animation: blobDrift1 38s ease-in-out infinite;
   }
   .bg-blob-2 {
-    inset: -40%; width: 180%; height: 180%;
-    background: radial-gradient(ellipse 28% 28% at 70% 60%, rgba(216,180,176,0.05) 0%, transparent 60%);
+    width: 55vw; height: 55vw;
+    bottom: -20vh; right: -10vw;
+    background: radial-gradient(circle, rgba(216,180,176,0.24) 0%, transparent 70%);
+    filter: blur(90px);
     animation: blobDrift2 52s ease-in-out infinite;
     animation-delay: -18s;
   }
   .bg-blob-3 {
-    inset: -40%; width: 180%; height: 180%;
-    background: radial-gradient(ellipse 22% 22% at 50% 80%, rgba(249,221,156,0.05) 0%, transparent 60%);
+    width: 45vw; height: 45vw;
+    top: 35vh; left: 38vw;
+    background: radial-gradient(circle, rgba(249,221,156,0.22) 0%, transparent 70%);
+    filter: blur(100px);
     animation: blobDrift3 44s ease-in-out infinite;
     animation-delay: -30s;
   }
