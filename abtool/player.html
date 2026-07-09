@@ -322,7 +322,7 @@
     $('labelA').textContent = manifest.reference.label || 'Referencia';
 
     versionSelect.innerHTML = manifest.versions.map((v, i) =>
-      `<option value="${i}">${escapeHtml(v.label || v.v)}${v.date ? ' · ' + escapeHtml(v.date) : ''}</option>`
+      `<option value="${i}">${escapeHtml(v.label || '')}${v.v ? ' · ' + escapeHtml(v.v) : ''}</option>`
     ).join('');
     versionSelect.disabled = false;
     versionSelect.addEventListener('change', onVersionChange);

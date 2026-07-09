@@ -47,9 +47,15 @@ if (-not (Test-Path $manifestPath)) {
 
 $manifest = Get-Content $manifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
-$label = Read-Host "¿Cómo se llama esta versión? (ej. Atmos Binaural v2.3, Master Estéreo)"
+$label = Read-Host "¿Cómo se llama esta versión? (ej. Atmos Binaural, Master Estéreo)"
 if ([string]::IsNullOrWhiteSpace($label)) {
     Write-Host "El nombre de la versión es obligatorio." -ForegroundColor Red
+    exit
+}
+
+$version = Read-Host "¿Qué versión es? (como identificas el archivo, ej. v2.3, v1.2)"
+if ([string]::IsNullOrWhiteSpace($version)) {
+    Write-Host "La versión es obligatoria." -ForegroundColor Red
     exit
 }
 
@@ -67,10 +73,23 @@ if (-not $creds) {
     exit
 }
 
-$existingCount = @($manifest.versions).Count
-$tag = "v$($existingCount + 1)"
+# --- clave segura para R2, derivada de la versión que escribió el usuario ---
+function New-SafeKey([string]$text) {
+    $clean = $text.ToLower() -replace '[^a-z0-9.\-]+', '-'
+    $clean = $clean.Trim('-')
+    if ([string]::IsNullOrWhiteSpace($clean)) { $clean = "version" }
+    return $clean
+}
+
+$safeTag = New-SafeKey $version
+$existingTags = @($manifest.versions | ForEach-Object { New-SafeKey $_.v })
+if ($existingTags -contains $safeTag) {
+    $safeTag = "$safeTag-$(@($manifest.versions).Count + 1)"
+    Write-Host "  Ya había una versión con esa etiqueta, la subo como '$safeTag' para no pisar el archivo anterior." -ForegroundColor Yellow
+}
+
 $ext = [System.IO.Path]::GetExtension($localFile).TrimStart('.')
-$remoteKey = "$slug/$tag.$ext"
+$remoteKey = "$slug/$safeTag.$ext"
 
 Write-Host ""
 Write-Host "  Subiendo a R2..." -ForegroundColor Gray
@@ -85,7 +104,7 @@ $fileUrl = "$($creds['Public URL (r2.dev)'])/$remoteKey"
 $today = Get-Date -Format "yyyy-MM-dd"
 
 $newVersion = [ordered]@{
-    v     = $tag
+    v     = $version
     label = $label
     date  = $today
     notes = $notes
@@ -100,6 +119,6 @@ $manifest | ConvertTo-Json -Depth 5 | Set-Content -Path $manifestPath -Encoding 
 Write-Host "  Subida correctamente." -ForegroundColor Green
 Write-Host ""
 Write-Host "--- VERSION AGREGADA ---" -ForegroundColor Yellow
-Write-Host "  Nombre:    $label" -ForegroundColor Green
+Write-Host "  Nombre:    $label · $version" -ForegroundColor Green
 Write-Host "  Proyecto:  https://arturomenaleon.com/abtool/$slug/" -ForegroundColor Cyan
 Write-Host ""
