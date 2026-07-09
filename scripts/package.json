@@ -1,0 +1,8 @@
+{
+  "name": "abtool-scripts",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "aws4fetch": "^1.0.20"
+  }
+}

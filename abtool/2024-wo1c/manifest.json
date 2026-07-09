@@ -1,0 +1,22 @@
+﻿{
+    "id":  "2024-wo1c",
+    "title":  "2024",
+    "artist":  "Rene Antonio",
+    "genre":  "",
+    "status":  "in_progress",
+    "approved_version":  null,
+    "public":  false,
+    "reference":  {
+                      "label":  "Master Original",
+                      "file":  "https://pub-b481227c942e412cbd14d11a31f2d0d1.r2.dev/2024-wo1c/reference.wav"
+                  },
+    "versions":  [
+                     {
+                         "v":  "v1",
+                         "label":  "Atmos Binaural",
+                         "date":  "2026-07-09",
+                         "notes":  "Recomendado usar audifonos - es una mezcla binaural",
+                         "file":  "https://pub-b481227c942e412cbd14d11a31f2d0d1.r2.dev/2024-wo1c/v1.wav"
+                     }
+                 ]
+}

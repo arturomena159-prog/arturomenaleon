@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A/B — Comparador de mezclas</title>
+<style>
+  :root {
+    --mist-0: #E9EDEC;
+    --mist-1: #D8DFDE;
+    --mist-2: #B9C4C2;
+    --slate: #5E7370;
+    --deep: #2A3A3E;
+    --accent: #46605C;
+    --accent-soft: rgba(70, 96, 92, 0.14);
+    --error: #B5473F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: var(--mist-0);
+    color: var(--deep);
+    font-family: "Archivo", -apple-system, "Segoe UI", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .player {
+    width: 100%;
+    max-width: 680px;
+    background: linear-gradient(160deg, #FFFFFF 0%, var(--mist-0) 100%);
+    border: 1px solid var(--mist-1);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 18px 50px -24px rgba(42, 58, 62, 0.35);
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+  .artist {
+    font-size: 13px;
+    color: var(--slate);
+    margin-bottom: 24px;
+  }
+
+  /* ---- track cards (A fija / B seleccionable) ---- */
+  .tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .track-card {
+    border: 1.5px solid var(--mist-1);
+    border-radius: 12px;
+    padding: 14px;
+    background: #fff;
+  }
+  .track-card .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #fff;
+    background: var(--slate);
+    border-radius: 5px;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+  }
+  .track-card.b .tag { background: var(--accent); }
+  .track-card .track-label { font-size: 13px; font-weight: 600; color: var(--deep); }
+  .track-card select {
+    width: 100%;
+    font-family: inherit;
+    font-size: 12.5px;
+    padding: 7px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--mist-1);
+    background: var(--mist-0);
+    color: var(--deep);
+  }
+  .track-card .status { font-size: 11px; color: var(--slate); margin-top: 8px; min-height: 14px; }
+  .track-card .status.error { color: var(--error); font-weight: 600; }
+  .track-card .notes { font-size: 11px; color: var(--slate); margin-top: 4px; font-style: italic; line-height: 1.4; }
+  .retry-btn {
+    font-size: 11px; color: var(--accent); background: none; border: none;
+    text-decoration: underline; cursor: pointer; padding: 0; margin-top: 4px; font-family: inherit;
+  }
+
+  /* ---- waveform ---- */
+  .wave-wrap {
+    position: relative;
+    height: 110px;
+    border-radius: 10px;
+    background: var(--deep);
+    overflow: hidden;
+    margin-bottom: 20px;
+    cursor: pointer;
+    opacity: 0.35;
+    transition: opacity 0.3s;
+  }
+  .wave-wrap.ready { opacity: 1; }
+  canvas { display: block; width: 100%; height: 100%; }
+  .playhead {
+    position: absolute; top: 0; bottom: 0; width: 1.5px;
+    background: var(--mist-0);
+    box-shadow: 0 0 8px rgba(233,237,236,0.8);
+    left: 0; pointer-events: none;
+  }
+
+  /* ---- transport ---- */
+  .transport { display: flex; align-items: center; gap: 18px; }
+  .play-btn {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: none; background: var(--accent); color: #fff;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.1s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .play-btn:hover:not(:disabled) { background: var(--deep); transform: scale(1.05); }
+  .play-btn:disabled { background: var(--mist-2); cursor: default; transform: none; }
+  .play-btn:focus-visible, select:focus-visible, .ab-toggle button:focus-visible, .retry-btn:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .play-btn svg { width: 20px; height: 20px; fill: currentColor; }
+  .time { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--slate); min-width: 92px; }
+
+  /* ---- the toggle ---- */
+  .ab-toggle {
+    margin-left: auto;
+    display: flex;
+    background: var(--mist-1);
+    border-radius: 999px;
+    padding: 4px;
+    position: relative;
+    user-select: none;
+  }
+  .ab-toggle button {
+    position: relative; z-index: 1;
+    border: none; background: transparent;
+    font-family: inherit; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.08em;
+    padding: 10px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--slate);
+    transition: color 0.18s;
+  }
+  .ab-toggle button.active { color: #fff; }
+  .ab-pill {
+    position: absolute; top: 4px; bottom: 4px;
+    width: calc(50% - 4px);
+    background: var(--accent);
+    border-radius: 999px;
+    transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    left: 4px;
+  }
+  .ab-pill.b { left: 50%; }
+
+  .footer {
+    margin-top: 22px;
+    font-size: 11px;
+    color: var(--mist-2);
+    display: flex;
+    justify-content: space-between;
+  }
+  kbd {
+    background: var(--mist-1); border-radius: 4px; padding: 1px 6px;
+    font-family: inherit; font-size: 10px; color: var(--slate);
+  }
+
+  /* ---- fatal error (proyecto no encontrado, etc) ---- */
+  .fatal {
+    max-width: 420px;
+    text-align: center;
+    color: var(--slate);
+    background: #fff;
+    border: 1px solid var(--mist-1);
+    border-radius: 18px;
+    padding: 40px 32px;
+  }
+  .fatal h2 { color: var(--deep); margin-bottom: 8px; font-size: 18px; }
+
+  [hidden] { display: none !important; }
+
+  @media (max-width: 520px) {
+    .player { padding: 22px; }
+    .tracks { grid-template-columns: 1fr; }
+    .transport { flex-wrap: wrap; }
+    .ab-toggle { margin-left: 0; width: 100%; }
+    .ab-toggle button { flex: 1; }
+    .ab-pill { width: calc(50% - 4px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="player" id="player" hidden>
+  <div class="eyebrow">Arturo Mena León · Comparador de mezclas</div>
+  <h1 id="title">—</h1>
+  <div class="artist" id="artist">—</div>
+
+  <div class="tracks">
+    <div class="track-card a">
+      <span class="tag">A</span>
+      <div class="track-label" id="labelA">Referencia</div>
+      <div class="status" id="statusA">Cargando…</div>
+    </div>
+    <div class="track-card b">
+      <span class="tag">B</span>
+      <select id="versionSelect" disabled></select>
+      <div class="notes" id="versionNotes"></div>
+      <div class="status" id="statusB">Cargando…</div>
+    </div>
+  </div>
+
+  <div class="wave-wrap" id="waveWrap">
+    <canvas id="wave"></canvas>
+    <div class="playhead" id="playhead"></div>
+  </div>
+
+  <div class="transport">
+    <button class="play-btn" id="playBtn" disabled aria-label="Reproducir">
+      <svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <div class="time" id="time">0:00 / 0:00</div>
+    <div class="ab-toggle" id="abToggle">
+      <div class="ab-pill" id="abPill"></div>
+      <button id="btnA" class="active">A</button>
+      <button id="btnB">B</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span><kbd>espacio</kbd> reproducir · <kbd>tab</kbd>/<kbd>t</kbd> alternar A/B</span>
+    <span>sincronía a nivel de muestra</span>
+  </div>
+</div>
+
+<div class="fatal" id="fatalError" hidden>
+  <h2 id="fatalTitle">No se pudo cargar el proyecto</h2>
+  <p id="fatalMsg">Revisa el link e intenta de nuevo.</p>
+</div>
+
+<script>
+(() => {
+  const SVG_PLAY = '<path d="M8 5v14l11-7z"/>';
+  const SVG_PAUSE = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+
+  let ctx = null;
+  const buffers = [null, null];
+  const gains = [null, null];
+  let sources = [null, null];
+  let playing = false;
+  let startedAt = 0;   // ctx.currentTime when playback started
+  let offset = 0;      // seconds into the material
+  let active = 0;      // 0 = A, 1 = B
+  let duration = 0;
+  let raf = null;
+  let manifest = null;
+
+  const $ = id => document.getElementById(id);
+  const playBtn = $('playBtn'), playIcon = $('playIcon');
+  const timeEl = $('time'), playhead = $('playhead');
+  const waveWrap = $('waveWrap'), canvas = $('wave');
+  const cv = canvas.getContext('2d');
+  const statusEls = [$('statusA'), $('statusB')];
+  const versionSelect = $('versionSelect');
+  const versionNotes = $('versionNotes');
+
+  function ensureCtx() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      gains[0] = ctx.createGain();
+      gains[1] = ctx.createGain();
+      gains[0].connect(ctx.destination);
+      gains[1].connect(ctx.destination);
+      gains[1].gain.value = 0;
+    }
+    return ctx;
+  }
+
+  // ---------- manifest / bootstrap ----------
+  function fatal(title, msg) {
+    $('fatalTitle').textContent = title;
+    $('fatalMsg').textContent = msg;
+    $('fatalError').hidden = false;
+    $('player').hidden = true;
+  }
+
+  async function init() {
+    const parts = location.pathname.split('/').filter(Boolean); // ['abtool', 'slug']
+    const slug = parts[1];
+    if (!slug) { fatal('Falta el proyecto', 'Esta URL no apunta a ningún comparador.'); return; }
+
+    try {
+      const res = await fetch(`/abtool/${slug}/manifest.json`);
+      if (!res.ok) throw new Error('http-' + res.status);
+      manifest = await res.json();
+    } catch (err) {
+      fatal('Proyecto no encontrado', 'No existe este link o el manifest está mal formado.');
+      return;
+    }
+
+    if (!manifest.versions || !manifest.versions.length) {
+      fatal('Sin versiones', 'Este proyecto todavía no tiene ninguna mezcla cargada.');
+      return;
+    }
+
+    $('player').hidden = false;
+    $('title').textContent = manifest.title || 'Sin título';
+    $('artist').textContent = manifest.artist || '';
+    $('labelA').textContent = manifest.reference.label || 'Referencia';
+
+    versionSelect.innerHTML = manifest.versions.map((v, i) =>
+      `<option value="${i}">${escapeHtml(v.label || v.v)}${v.date ? ' · ' + escapeHtml(v.date) : ''}</option>`
+    ).join('');
+    versionSelect.disabled = false;
+    versionSelect.addEventListener('change', onVersionChange);
+
+    const firstIndex = 0;
+    versionSelect.value = firstIndex;
+    updateNotes(manifest.versions[firstIndex]);
+
+    await Promise.all([
+      loadTrack(0, manifest.reference.file),
+      loadTrack(1, manifest.versions[firstIndex].file)
+    ]);
+    if (buffers[0] && buffers[1]) armPlayer(false);
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function updateNotes(v) {
+    versionNotes.textContent = v.notes ? v.notes : '';
+  }
+
+  async function onVersionChange() {
+    const v = manifest.versions[Number(versionSelect.value)];
+    updateNotes(v);
+    const wasPlaying = playing;
+    if (playing) pause();
+    versionSelect.disabled = true;
+    await loadTrack(1, v.file);
+    versionSelect.disabled = false;
+    if (buffers[0] && buffers[1]) {
+      armPlayer(true);
+      if (wasPlaying) play();
+    }
+  }
+
+  // ---------- track loading (fetch + progreso real) ----------
+  function setStatus(i, text, isError) {
+    statusEls[i].textContent = text;
+    statusEls[i].classList.toggle('error', !!isError);
+  }
+
+  async function fetchWithProgress(url, onProgress) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('http-' + res.status);
+    const total = Number(res.headers.get('Content-Length')) || 0;
+    if (!res.body || !total) return await res.arrayBuffer();
+
+    const reader = res.body.getReader();
+    const chunks = [];
+    let received = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      received += value.length;
+      onProgress(received / total);
+    }
+    const buf = new Uint8Array(received);
+    let off = 0;
+    for (const chunk of chunks) { buf.set(chunk, off); off += chunk.length; }
+    return buf.buffer;
+  }
+
+  async function loadTrack(i, url) {
+    setStatus(i, 'Descargando… 0%');
+    let retryUrl = url;
+    try {
+      const data = await fetchWithProgress(url, frac => {
+        setStatus(i, `Descargando… ${Math.round(frac * 100)}%`);
+      });
+      setStatus(i, 'Decodificando…');
+      buffers[i] = await ensureCtx().decodeAudioData(data);
+      peakCache[i] = null; // el buffer cambió — invalidar picos del waveform
+      setStatus(i, 'Listo');
+    } catch (err) {
+      buffers[i] = null;
+      setStatus(i, 'Error al cargar el audio', true);
+      addRetry(i, retryUrl);
+    }
+  }
+
+  function addRetry(i, url) {
+    const btn = document.createElement('button');
+    btn.className = 'retry-btn';
+    btn.textContent = 'Reintentar';
+    btn.addEventListener('click', async () => {
+      btn.remove();
+      await loadTrack(i, url);
+      if (buffers[0] && buffers[1]) armPlayer(true);
+    });
+    statusEls[i].after(btn);
+  }
+
+  function armPlayer(preserveOffset) {
+    duration = Math.max(buffers[0].duration, buffers[1].duration);
+    offset = preserveOffset ? Math.min(offset, duration) : 0;
+    playBtn.disabled = false;
+    waveWrap.classList.add('ready');
+    drawWave();
+    updateTime();
+  }
+
+  // ---------- waveform ----------
+  function peaks(buffer, n) {
+    const ch = buffer.getChannelData(0);
+    const block = Math.floor(ch.length / n);
+    const out = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      let max = 0;
+      const s = i * block;
+      for (let j = 0; j < block; j += 16) {
+        const v = Math.abs(ch[s + j]);
+        if (v > max) max = v;
+      }
+      out[i] = max;
+    }
+    return out;
+  }
+
+  let peakCache = [null, null];
+  function drawWave() {
+    const dpr = window.devicePixelRatio || 1;
+    const w = waveWrap.clientWidth, h = waveWrap.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    cv.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cv.clearRect(0, 0, w, h);
+    if (!buffers[0] || !buffers[1]) return;
+
+    const n = Math.floor(w / 3);
+    [0, 1].forEach(i => { if (!peakCache[i] || peakCache[i].length !== n) peakCache[i] = peaks(buffers[i], n); });
+
+    const inactive = 1 - active;
+    drawBars(peakCache[inactive], w, h, n, 'rgba(233,237,236,0.16)');
+    drawBars(peakCache[active], w, h, n, '#7FA69E');
+  }
+
+  function drawBars(pk, w, h, n, color) {
+    cv.fillStyle = color;
+    const bw = w / n;
+    for (let i = 0; i < n; i++) {
+      const bh = Math.max(2, pk[i] * (h - 14));
+      cv.fillRect(i * bw + 0.5, (h - bh) / 2, bw - 1.5, bh);
+    }
+  }
+
+  // ---------- transport ----------
+  function play() {
+    const c = ensureCtx();
+    if (c.state === 'suspended') c.resume();
+    sources = buffers.map((buf, i) => {
+      const src = c.createBufferSource();
+      src.buffer = buf;
+      src.connect(gains[i]);
+      return src;
+    });
+    const t = c.currentTime + 0.03;
+    sources.forEach(s => s.start(t, Math.min(offset, s.buffer.duration - 0.01)));
+    sources[active].onended = () => { if (playing) stop(true); };
+    startedAt = t;
+    playing = true;
+    playIcon.innerHTML = SVG_PAUSE;
+    tick();
+  }
+
+  function pause() {
+    offset = Math.min(offset + Math.max(0, ctx.currentTime - startedAt), duration);
+    killSources();
+    playing = false;
+    playIcon.innerHTML = SVG_PLAY;
+    cancelAnimationFrame(raf);
+    updateTime();
+  }
+
+  function stop(ended) {
+    if (ctx) killSources();
+    playing = false;
+    offset = ended ? 0 : offset;
+    playIcon.innerHTML = SVG_PLAY;
+    cancelAnimationFrame(raf);
+    updateTime();
+  }
+
+  function killSources() {
+    sources.forEach(s => { if (s) { s.onended = null; try { s.stop(); } catch (e) {} } });
+    sources = [null, null];
+  }
+
+  playBtn.addEventListener('click', () => playing ? pause() : play());
+
+  // ---------- the toggle ----------
+  function setActive(i) {
+    if (i === active || !ctx) { active = i; syncToggleUI(); return; }
+    active = i;
+    const t = ctx.currentTime;
+    const RAMP = 0.004; // 4 ms — sin clics, se percibe instantáneo
+    gains[i].gain.cancelScheduledValues(t);
+    gains[1 - i].gain.cancelScheduledValues(t);
+    gains[i].gain.setValueAtTime(gains[i].gain.value, t);
+    gains[1 - i].gain.setValueAtTime(gains[1 - i].gain.value, t);
+    gains[i].gain.linearRampToValueAtTime(1, t + RAMP);
+    gains[1 - i].gain.linearRampToValueAtTime(0, t + RAMP);
+    syncToggleUI();
+    drawWave();
+  }
+
+  function syncToggleUI() {
+    $('btnA').classList.toggle('active', active === 0);
+    $('btnB').classList.toggle('active', active === 1);
+    $('abPill').classList.toggle('b', active === 1);
+  }
+
+  $('btnA').addEventListener('click', () => setActive(0));
+  $('btnB').addEventListener('click', () => setActive(1));
+
+  // ---------- seek ----------
+  waveWrap.addEventListener('click', e => {
+    if (!duration) return;
+    const rect = waveWrap.getBoundingClientRect();
+    const frac = (e.clientX - rect.left) / rect.width;
+    const wasPlaying = playing;
+    if (playing) pause();
+    offset = frac * duration;
+    updateTime();
+    if (wasPlaying) play();
+  });
+
+  // ---------- clock ----------
+  function tick() {
+    raf = requestAnimationFrame(tick);
+    updateTime();
+  }
+
+  function fmt(s) {
+    s = Math.max(0, s);
+    return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+  }
+
+  function updateTime() {
+    const pos = playing ? Math.min(offset + (ctx.currentTime - startedAt), duration) : offset;
+    timeEl.textContent = fmt(pos) + ' / ' + fmt(duration);
+    playhead.style.left = duration ? (pos / duration * 100) + '%' : '0';
+  }
+
+  // ---------- keyboard ----------
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+    if (e.code === 'Space') { e.preventDefault(); if (!playBtn.disabled) playing ? pause() : play(); }
+    if (e.key === 't' || e.key === 'T' || e.code === 'Tab') { e.preventDefault(); setActive(1 - active); }
+    if (e.key === 'a' || e.key === 'A') setActive(0);
+    if (e.key === 'b' || e.key === 'B') setActive(1);
+  });
+
+  window.addEventListener('resize', drawWave);
+
+  init();
+})();
+</script>
+</body>
+</html>

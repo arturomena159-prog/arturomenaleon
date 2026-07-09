@@ -1,0 +1,17 @@
+{
+  "id": "test-project",
+  "title": "Proyecto de prueba",
+  "artist": "Tu nombre aquí",
+  "genre": "test",
+  "status": "in_progress",
+  "approved_version": null,
+  "public": false,
+  "reference": {
+    "label": "Maqueta",
+    "file": "./maqueta.wav"
+  },
+  "versions": [
+    { "v": "1.0", "date": "2026-07-09", "notes": "Primera pasada", "file": "./v1-0.wav" },
+    { "v": "1.1", "date": "2026-07-09", "notes": "Bajo -2dB, vocal rider", "file": "./v1-1.wav" }
+  ]
+}

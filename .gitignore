@@ -2,3 +2,13 @@
 Assets/.DS_Store
 Assets/img/.DS_Store
 Thumbs.db
+
+# Local Netlify folder
+.netlify
+
+# Llaves de R2 — NUNCA subir esto
+r2-credentials.txt
+
+# Dependencias de Node para el generador de proyectos
+scripts/node_modules
+scripts/package-lock.json
