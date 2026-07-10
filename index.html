@@ -31,8 +31,8 @@
   :root {
     --bg-0:   #E9EDEC;
     --bg-1:   #DDE3E1;
-    --ink:    #1E2A2E;
-    --muted:  #5C6E72;
+    --ink:    #101819;
+    --muted:  #233034;
     --accent: #46605C;
     --line:   rgba(30,42,46,0.15);
     --accent-dim: rgba(70,96,92,0.1);
@@ -192,48 +192,15 @@
   }
 
   /* ─── TONAL PROGRESSION POR PÁGINA ─── */
-  #page-home     { background: #E9EDEC; }
-  #page-about    { background: #E4E9E7; }
-  #page-film     { background: #DDE3E1; }
-  #page-atmos    { background: #D7DFDD; }
-  #page-mix      { background: #D2DBDA; }
-  #page-music    { background: #CCD5D3; }
-  #page-photo    { background: #C6CFCD; }
-  #page-projects { background: #3A4A4E; }
-  #page-contact  { background: #2A3A3E; }
-
-  /* Texto claro en las dos páginas oscuras */
-  #page-projects,
-  #page-contact {
-    color: #E9EDEC;
-  }
-  #page-projects .page-eyebrow,
-  #page-contact  .page-eyebrow  { color: #8aada5; }
-  #page-projects .page-title,
-  #page-contact  .contact-heading { color: #E9EDEC; }
-  #page-projects .page-title em,
-  #page-contact  .contact-heading em { color: #8aada5; }
-  #page-projects .proj-tab,
-  #page-contact  .contact-sub   { color: rgba(233,237,236,0.7); }
-  #page-projects .proj-tab.active { color: #8aada5; }
-  #page-projects .proj-tab.active::after { background: #8aada5; }
-  #page-projects .proj-tabs      { border-color: rgba(233,237,236,0.2); }
-  #page-projects .subnav-btn     { border-color: rgba(233,237,236,0.2); color: rgba(233,237,236,0.6); }
-  #page-projects .subnav-btn.active,
-  #page-projects .subnav-btn:hover { border-color: #8aada5; color: #8aada5; }
-  #page-contact  .contact-link   { border-color: rgba(233,237,236,0.2); }
-  #page-contact  .contact-link:hover { border-color: #8aada5; background: rgba(138,173,165,0.1); }
-  #page-contact  .cl-label       { color: rgba(233,237,236,0.5); }
-  #page-contact  .cl-value       { color: #E9EDEC; }
-  #page-contact  .contact-link:hover .cl-value { color: #8aada5; }
-  #page-contact  .cl-arrow,
-  #page-contact  .contact-link:hover .cl-arrow { color: #8aada5; }
-  #page-projects .page-footer,
-  #page-contact  .page-footer    { border-color: rgba(233,237,236,0.15); color: rgba(233,237,236,0.4); }
-  #page-projects .btn,
-  #page-contact  .btn            { border-color: rgba(233,237,236,0.4); color: #E9EDEC; }
-  #page-projects .btn:hover,
-  #page-contact  .btn:hover      { background: rgba(233,237,236,0.1); }
+  #page-home     { background: #BAC3C1; }
+  #page-about    { background: #B4BEBC; }
+  #page-film     { background: #AEB9B6; }
+  #page-atmos    { background: #A8B3B1; }
+  #page-mix      { background: #A3AEAC; }
+  #page-music    { background: #9DA9A6; }
+  #page-photo    { background: #97A4A1; }
+  #page-projects { background: #919E9B; }
+  #page-contact  { background: #8B9996; }
 
 
   /* ─── COMMON ─── */
@@ -319,10 +286,10 @@
 
   .roles-list {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
     color: var(--text-dim);
-    line-height: 2.2;
+    line-height: 1.9;
   }
   .roles-list span { display: block; }
   .roles-list span::before { content: '— '; color: var(--accent); }
@@ -331,10 +298,10 @@
 
   .home-tagline {
     font-style: italic;
-    font-size: 1.25rem;
+    font-size: 1.8rem;
     color: var(--muted);
-    max-width: 260px;
-    line-height: 1.55;
+    max-width: 320px;
+    line-height: 1.5;
   }
 
   .home-cta {
@@ -387,7 +354,7 @@
     margin-top: 0.3rem;
   }
 
-  .bio { font-size: 1.1rem; color: var(--ink); line-height: 1.85; }
+  .bio { font-size: 1.85rem; color: var(--ink); line-height: 1.65; }
   .bio em { color: var(--accent); font-style: italic; }
 
   /* ─── WORK PHOTO FRAME ─── */
@@ -441,9 +408,9 @@
   }
 
   .discipline-desc {
-    font-size: 1.05rem;
+    font-size: 1.75rem;
     color: var(--text-dim);
-    line-height: 1.8;
+    line-height: 1.6;
     margin-bottom: 1.5rem;
   }
 
@@ -478,7 +445,7 @@
     font-weight: 700; font-size: 0.95rem;
     color: var(--ink); margin-bottom: 0.6rem;
   }
-  .service-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+  .service-desc { font-size: 1.3rem; color: var(--muted); line-height: 1.5; }
 
   /* ─── ATMOS ─── */
   #page-atmos { position: relative; }
@@ -528,8 +495,8 @@
   .atmos-headline em { font-style: italic; color: var(--accent); }
 
   .atmos-body {
-    font-size: 1.05rem; color: var(--muted);
-    max-width: 560px; margin-bottom: 3rem; line-height: 1.8;
+    font-size: 1.75rem; color: var(--muted);
+    max-width: 560px; margin-bottom: 3rem; line-height: 1.6;
   }
 
   .atmos-stats {
@@ -757,8 +724,8 @@
   .contact-heading em { font-style: italic; color: var(--accent); }
 
   .contact-sub {
-    font-size: 1.05rem; color: var(--muted);
-    margin-bottom: 3rem; line-height: 1.7; max-width: 520px;
+    font-size: 1.75rem; color: var(--muted);
+    margin-bottom: 3rem; line-height: 1.6; max-width: 520px;
   }
 
   .contact-links { display: flex; flex-direction: column; gap: 0.75rem; max-width: 600px; }
@@ -1078,7 +1045,7 @@
             <span>Fotógrafo</span>
           </div>
           <div class="home-divider"></div>
-          <p class="home-tagline">Sonido para cine y música — de la locación a la mezcla final.</p>
+          <p class="home-tagline">Dos oficios, un mismo oído: cine y música.</p>
         </div>
 
         <div class="home-cta">
@@ -1127,7 +1094,7 @@
           <div class="fade-in">
             <span class="label">Biografía</span>
             <p class="bio">
-              Soy un profesional multidisciplinario con raíces profundas en el sonido cinematográfico y la música en vivo. Mi trabajo abarca desde la captura del sonido en locación hasta la mezcla final en <em>Dolby Atmos</em>, pasando por el foley, la edición de diálogos y la posproducción de imagen.
+              Soy un profesional multidisciplinario con raíces profundas en el sonido cinematográfico y la música en vivo. Grabo en locación, diseño foley, edito diálogo y llevo cada proyecto hasta la mezcla final en <em>Dolby Atmos</em>.
               <br><br>
               Paralelo al audio, soy baterista y percusionista, y encuentro en la fotografía analógica un contrapeso artístico a la precisión técnica del estudio. Trabajo desde el <em>Reino Unido</em>, pero los proyectos no tienen fronteras.
             </p>
@@ -1148,7 +1115,7 @@
 
         <div class="discipline-intro">
           <div class="fade-in">
-            <p class="discipline-desc">Capturo, edito y mezclo el sonido de la narrativa cinematográfica en todas sus etapas — desde el micrófono en locación hasta la entrega final de los masters.</p>
+            <p class="discipline-desc">Grabación en set, edición de diálogo, foley y mezcla final — construyo el sonido de una película pieza por pieza.</p>
             <div class="tags">
               <span class="tag">Location Sound</span>
               <span class="tag">Foley</span>
@@ -1189,7 +1156,7 @@
           </div>
           <div class="service-card">
             <p class="service-name">Posproducción Integral</p>
-            <p class="service-desc">Supervisión completa desde el rodaje hasta la entrega de masters.</p>
+            <p class="service-desc">Superviso todo el proceso: rodaje, edición, mezcla y entrega de masters.</p>
           </div>
         </div>
 
@@ -1214,7 +1181,7 @@
           </h2>
 
           <p class="atmos-body fade-in">
-            Mezclo en Dolby Atmos para música, cine y contenido inmersivo. Desde sesiones estéreo convertidas hasta mezclas nativas en 7.1.4, con entrega en formatos ADM, IMF y streaming.
+            Mezclo en Dolby Atmos para música, cine y contenido inmersivo — conversión de sesiones estéreo, mezclas nativas en 7.1.4, entrega en ADM, IMF y streaming.
           </p>
 
           <div class="atmos-stats fade-in">
@@ -1294,7 +1261,7 @@
         <div class="services-grid fade-in">
           <div class="service-card">
             <p class="service-name">Mezcla Estéreo</p>
-            <p class="service-desc">Balance, dinámica, espacialidad y color tonal desde demos hasta álbumes completos.</p>
+            <p class="service-desc">Balance, dinámica, espacialidad y color tonal, para un sencillo o un álbum entero.</p>
           </div>
           <div class="service-card">
             <p class="service-name">Mastering</p>
@@ -1324,7 +1291,7 @@
 
         <div class="discipline-intro">
           <div class="fade-in">
-            <p class="discipline-desc">Baterista y percusionista. El ritmo como lenguaje primario, la dinámica como narrativa. Disponible para sesiones, grabaciones y colaboraciones.</p>
+            <p class="discipline-desc">Baterista y percusionista. Toco para que la canción respire, no para llenar espacio. Disponible para sesiones, grabaciones y colaboraciones.</p>
             <div class="tags">
               <span class="tag">Batería</span>
               <span class="tag">Percusión</span>
@@ -1368,7 +1335,7 @@
 
         <div class="photo-intro">
           <div class="fade-in">
-            <p class="discipline-desc">Fotografía analógica como práctica artística personal. Película de 35mm y medio formato. La imperfección química como lenguaje visual.</p>
+            <p class="discipline-desc">Cámaras de película, no de sensor. 35mm y medio formato, con todo el grano y los accidentes químicos que eso implica.</p>
             <div class="tags">
               <span class="tag">35mm</span>
               <span class="tag">Analógico</span>
