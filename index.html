@@ -2,9 +2,18 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem('langChoice')) return;
+      var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      if (lang && lang.indexOf('es') !== 0) window.location.replace('/en/');
+    } catch (e) {}
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arturo Mena León — Re-recording Mixer & Dolby Atmos</title>
-<meta name="description" content="Arturo Mena León — Re-recording Mixer, Dolby Atmos y Production Sound Mixer con base en Londres. Audio para cine y música.">
+<title>Arturo Mena León · Re-recording Mixer & Dolby Atmos</title>
+<meta name="description" content="Arturo Mena León: Re-recording Mixer, Dolby Atmos y Production Sound Mixer con base en Londres. Audio para cine y música.">
 <link rel="canonical" href="https://arturomenaleon.com/">
 <link rel="alternate" hreflang="es" href="https://arturomenaleon.com/">
 <link rel="alternate" hreflang="en" href="https://arturomenaleon.com/en/">
@@ -12,14 +21,14 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://arturomenaleon.com/">
-<meta property="og:title" content="Arturo Mena León — Re-recording Mixer & Dolby Atmos">
+<meta property="og:title" content="Arturo Mena León · Re-recording Mixer & Dolby Atmos">
 <meta property="og:description" content="Re-recording Mixer, Dolby Atmos y Production Sound Mixer con base en Londres. Audio para cine y música.">
 <meta property="og:image" content="https://arturomenaleon.com/Assets/img/on-set/boom-greenhouse.jpeg">
 <meta property="og:locale" content="es_MX">
 <meta property="og:locale:alternate" content="en_GB">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Arturo Mena León — Re-recording Mixer & Dolby Atmos">
+<meta name="twitter:title" content="Arturo Mena León · Re-recording Mixer & Dolby Atmos">
 <meta name="twitter:description" content="Re-recording Mixer, Dolby Atmos y Production Sound Mixer con base en Londres. Audio para cine y música.">
 <meta name="twitter:image" content="https://arturomenaleon.com/Assets/img/on-set/boom-greenhouse.jpeg">
 <!-- Favicon -->
@@ -630,7 +639,7 @@
   /* Film posters */
   .posters-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(213px, 1fr));
     gap: 4px;
   }
   .poster-slot {
@@ -664,7 +673,7 @@
 
   .covers-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 4px;
   }
   .cover-slot {
@@ -982,7 +991,7 @@
     <div class="nav-lang">
       <span class="lang-active">ES</span>
       <span class="lang-sep">·</span>
-      <a href="en/" class="lang-link">EN</a>
+      <a href="en/" class="lang-link" onclick="localStorage.setItem('langChoice','1')">EN</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false" onclick="toggleMenu()">
       <span></span><span></span><span></span>
@@ -1004,7 +1013,7 @@
       <div class="mn-lang">
         <span class="lang-active">ES</span>
         <span class="lang-sep"> · </span>
-        <a href="en/" class="lang-link">EN</a>
+        <a href="en/" class="lang-link" onclick="localStorage.setItem('langChoice','1')">EN</a>
       </div>
     </div>
   </div>
@@ -1045,7 +1054,7 @@
             <span>Fotógrafo</span>
           </div>
           <div class="home-divider"></div>
-          <p class="home-tagline">Dos oficios, un mismo oído: cine y música.</p>
+          <p class="home-tagline">Audio para cine y música: de la locación a la mezcla final.</p>
         </div>
 
         <div class="home-cta">
@@ -1060,8 +1069,8 @@
 
       <!-- 1 ABOUT -->
       <div class="page" id="page-about">
-        <p class="page-eyebrow fade-in">01 — Sobre mí</p>
-        <h2 class="page-title fade-in">Quién<br>soy <em>yo</em></h2>
+        <p class="page-eyebrow fade-in">01 · Sobre mí</p>
+        <h2 class="page-title fade-in">Sobre<br>mí</h2>
         <div class="section-rule"></div>
 
         <div class="about-grid">
@@ -1086,7 +1095,7 @@
               </div>
               <div class="stat">
                 <div class="stat-number">2</div>
-                <div class="stat-label">Países base — MX · UK</div>
+                <div class="stat-label">Países base: MX · UK</div>
               </div>
             </div>
           </div>
@@ -1094,9 +1103,9 @@
           <div class="fade-in">
             <span class="label">Biografía</span>
             <p class="bio">
-              Soy un profesional multidisciplinario con raíces profundas en el sonido cinematográfico y la música en vivo. Grabo en locación, diseño foley, edito diálogo y llevo cada proyecto hasta la mezcla final en <em>Dolby Atmos</em>.
+              Trabajo en sonido para cine y música: grabación en locación, foley, edición de diálogo y mezcla final en <em>Dolby Atmos</em>.
               <br><br>
-              Paralelo al audio, soy baterista y percusionista, y encuentro en la fotografía analógica un contrapeso artístico a la precisión técnica del estudio. Trabajo desde el <em>Reino Unido</em>, pero los proyectos no tienen fronteras.
+              También soy baterista y percusionista, y trabajo con fotografía analógica en 35mm y medio formato. Estoy basado en <em>Londres</em> y colaboro con proyectos en Reino Unido, México y de forma remota.
             </p>
           </div>
         </div>
@@ -1109,13 +1118,13 @@
 
       <!-- 2 FILM AUDIO -->
       <div class="page" id="page-film">
-        <p class="page-eyebrow fade-in">02 — Audio de Cine</p>
+        <p class="page-eyebrow fade-in">02 · Audio de Cine</p>
         <h2 class="page-title fade-in">Del set<br>a la <em>sala</em></h2>
         <div class="section-rule"></div>
 
         <div class="discipline-intro">
           <div class="fade-in">
-            <p class="discipline-desc">Grabación en set, edición de diálogo, foley y mezcla final — construyo el sonido de una película pieza por pieza.</p>
+            <p class="discipline-desc">Grabación en set, edición de diálogo, foley y mezcla final. Disponible para etapas específicas o para acompañar el proyecto durante todo el proceso de sonido.</p>
             <div class="tags">
               <span class="tag">Location Sound</span>
               <span class="tag">Foley</span>
@@ -1127,7 +1136,7 @@
           </div>
           <div class="fade-in" style="display:flex;justify-content:center;align-items:center;">
             <figure class="media-frame">
-              <img src="Assets/img/on-set/boom-greenhouse.jpeg" alt="On set — Production Sound" loading="lazy" decoding="async">
+              <img src="Assets/img/on-set/boom-greenhouse.jpeg" alt="On set · Production Sound" loading="lazy" decoding="async">
               <figcaption>Sonido de Producción · En set</figcaption>
             </figure>
           </div>
@@ -1169,7 +1178,7 @@
       <!-- 3 ATMOS -->
       <div class="page" id="page-atmos">
         <div class="atmos-content">
-          <p class="page-eyebrow fade-in">03 — Especialidad Principal</p>
+          <p class="page-eyebrow fade-in">03 · Especialidad Principal</p>
 
           <div class="atmos-badge fade-in">
             <span class="atmos-dot"></span>
@@ -1181,7 +1190,7 @@
           </h2>
 
           <p class="atmos-body fade-in">
-            Mezclo en Dolby Atmos para música, cine y contenido inmersivo — conversión de sesiones estéreo, mezclas nativas en 7.1.4, entrega en ADM, IMF y streaming.
+            Mezclo en Dolby Atmos para música, cine y contenido inmersivo: conversión de sesiones estéreo, mezclas nativas en 7.1.4, entrega en ADM, IMF y streaming.
           </p>
 
           <div class="atmos-stats fade-in">
@@ -1208,23 +1217,23 @@
         </div>
 
         <div class="players-section fade-in">
-          <span class="label">Muestras — Dolby Atmos</span>
+          <span class="label">Muestras · Dolby Atmos</span>
           <div class="players-grid">
             <div class="player-item">
               <p class="player-role">Dolby Atmos Mix</p>
-              <p class="player-title">Crooks Inc — Let Go</p>
+              <p class="player-title">Crooks Inc · Let Go</p>
               <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/let-go/export" height="185" frameborder="0" scrolling="no"></iframe>
               <a href="https://soundtoggle.io/ColMena159/let-go" class="st-link" target="_blank" rel="noopener noreferrer">Escuchar en SoundToggle →</a>
             </div>
             <div class="player-item">
               <p class="player-role">Dolby Atmos Mix</p>
-              <p class="player-title">Rene Antonio — 2022</p>
+              <p class="player-title">Rene Antonio · 2022</p>
               <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/2022/export" height="185" frameborder="0" scrolling="no"></iframe>
               <a href="https://soundtoggle.io/ColMena159/2022" class="st-link" target="_blank" rel="noopener noreferrer">Escuchar en SoundToggle →</a>
             </div>
             <div class="player-item">
               <p class="player-role">Dolby Atmos Mix</p>
-              <p class="player-title">Arni Montes — Dos noches raras</p>
+              <p class="player-title">Arni Montes · Dos noches raras</p>
               <iframe class="player-iframe" src="https://soundtoggle.io/ColMena159/dos-noches-raras/export" height="185" frameborder="0" scrolling="no"></iframe>
               <a href="https://soundtoggle.io/ColMena159/dos-noches-raras" class="st-link" target="_blank" rel="noopener noreferrer">Escuchar en SoundToggle →</a>
             </div>
@@ -1239,7 +1248,7 @@
 
       <!-- 4 MIX & MASTER -->
       <div class="page" id="page-mix">
-        <p class="page-eyebrow fade-in">04 — Mix & Master</p>
+        <p class="page-eyebrow fade-in">04 · Mix & Master</p>
         <h2 class="page-title fade-in">Mix<br><em>&</em> Master</h2>
         <div class="section-rule"></div>
 
@@ -1254,7 +1263,7 @@
             </div>
           </div>
           <div class="fade-in" style="font-style:italic;font-size:1.2rem;color:var(--text-dim);display:flex;align-items:center;">
-            "La mezcla que no se nota, pero se siente."
+            Mezclas construidas alrededor de la canción, no de una plantilla.
           </div>
         </div>
 
@@ -1273,7 +1282,7 @@
           </div>
           <div class="service-card">
             <p class="service-name">Proceso Colaborativo</p>
-            <p class="service-desc">Tu visión artística, mi criterio técnico. Revisiones incluidas en cada proyecto.</p>
+            <p class="service-desc">Cada proyecto incluye una ronda de revisiones acordada para afinar la mezcla contigo antes de la entrega final.</p>
           </div>
         </div>
 
@@ -1285,13 +1294,13 @@
 
       <!-- 5 MUSIC -->
       <div class="page" id="page-music">
-        <p class="page-eyebrow fade-in">05 — Música</p>
-        <h2 class="page-title fade-in">Percusión<br><em>&</em> Ritmo</h2>
+        <p class="page-eyebrow fade-in">05 · Música</p>
+        <h2 class="page-title fade-in">Batería<br><em>&</em> Percusión</h2>
         <div class="section-rule"></div>
 
         <div class="discipline-intro">
           <div class="fade-in">
-            <p class="discipline-desc">Baterista y percusionista. Toco para que la canción respire, no para llenar espacio. Disponible para sesiones, grabaciones y colaboraciones.</p>
+            <p class="discipline-desc">Baterista y percusionista de sesión. Toco al servicio de la canción, con atención al arreglo, la dinámica y el espacio. Disponible para grabaciones y presentaciones en vivo.</p>
             <div class="tags">
               <span class="tag">Batería</span>
               <span class="tag">Percusión</span>
@@ -1317,7 +1326,7 @@
           </div>
           <div class="service-card">
             <p class="service-name">Audio + Música</p>
-            <p class="service-desc">Músico y técnico en uno. Perspectiva doble en cada proyecto.</p>
+            <p class="service-desc">Como músico e ingeniero, puedo encargarme de la grabación y entregar stems de batería organizados y listos para mezclar.</p>
           </div>
         </div>
 
@@ -1329,33 +1338,32 @@
 
       <!-- 6 PHOTOGRAPHY -->
       <div class="page" id="page-photo">
-        <p class="page-eyebrow fade-in">06 — Fotografía</p>
+        <p class="page-eyebrow fade-in">06 · Fotografía</p>
         <h2 class="page-title fade-in">Analógico<br><em>35mm</em></h2>
         <div class="section-rule"></div>
 
         <div class="photo-intro">
           <div class="fade-in">
-            <p class="discipline-desc">Cámaras de película, no de sensor. 35mm y medio formato, con todo el grano y los accidentes químicos que eso implica.</p>
+            <p class="discipline-desc">Fotografía analógica como práctica personal. Imágenes en 35mm y medio formato, entre viajes y escenas cotidianas.</p>
             <div class="tags">
               <span class="tag">35mm</span>
               <span class="tag">Analógico</span>
               <span class="tag">Documental</span>
-              <span class="tag">Retrato</span>
             </div>
           </div>
         </div>
 
         <div class="gallery fade-in">
           <div class="photo-slot l"><img src="Assets/img/analogue/000085530004.jpg" alt="Barcelona" loading="lazy"><span class="photo-caption">35mm · Barcelona</span></div>
-          <div class="photo-slot m"><img src="Assets/img/analogue/86670037.JPG" alt="Náutico" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
+          <div class="photo-slot m"><img src="Assets/img/analogue/86670037.JPG" alt="Náutico" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm</span></div>
           <div class="photo-slot s"><img src="Assets/img/analogue/86730013.JPG" alt="Puerta Londres" loading="lazy"><span class="photo-caption">35mm · London</span></div>
-          <div class="photo-slot w"><img src="Assets/img/analogue/000085520028.jpg" alt="Puerto" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
-          <div class="photo-slot s"><img src="Assets/img/analogue/86670032.JPG" alt="Espejo" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
-          <div class="photo-slot m"><img src="Assets/img/analogue/41180022.JPG" alt="Puerta 72" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
-          <div class="photo-slot l"><img src="Assets/img/analogue/86690026.JPG" alt="Librería neón" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
-          <div class="photo-slot s"><img src="Assets/img/analogue/000085530016.jpg" alt="Lámparas" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm · [Lugar]</span></div>
+          <div class="photo-slot w"><img src="Assets/img/analogue/000085520028.jpg" alt="Puerto" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm</span></div>
+          <div class="photo-slot s"><img src="Assets/img/analogue/86670032.JPG" alt="Espejo" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm</span></div>
+          <div class="photo-slot m"><img src="Assets/img/analogue/41180022.JPG" alt="Puerta 72" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm</span></div>
+          <div class="photo-slot l"><img src="Assets/img/analogue/86690026.JPG" alt="Librería neón" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm</span></div>
+          <div class="photo-slot s"><img src="Assets/img/analogue/000085530016.jpg" alt="Lámparas" loading="lazy"><!-- TODO: escribe lugar/rollo --><span class="photo-caption">35mm</span></div>
         </div>
-        <p class="photo-note fade-in">↑ 35mm analógico — selección de rollos 2023–2025</p>
+        <p class="photo-note fade-in">↑ 35mm analógico: selección de rollos 2023–2025</p>
 
         <div class="page-footer">
           <span>06 / 09</span>
@@ -1365,7 +1373,7 @@
 
       <!-- 7 PROJECTS -->
       <div class="page" id="page-projects">
-        <p class="page-eyebrow fade-in">07 — Proyectos</p>
+        <p class="page-eyebrow fade-in">07 · Proyectos</p>
         <h2 class="page-title fade-in">Trabajo<br><em>destacado</em></h2>
         <div class="section-rule"></div>
 
@@ -1382,8 +1390,10 @@
         <!-- CINE -->
         <div class="proj-panel active" data-panel="cine">
           <div class="posters-grid">
-            <div class="poster-slot" style="background-image:url('Assets/img/film-posters/green-with-envy-poster.jpg')"><div class="slot-overlay"><p class="slot-name">Green With Envy</p><p class="slot-role">Production Sound Mixer</p></div></div>
             <div class="poster-slot" style="background-image:url('Assets/img/film-posters/savi-poster.jpg')"><div class="slot-overlay"><p class="slot-name">SAVI</p><p class="slot-role">Foley Mixer & Editor</p></div></div>
+            <div class="poster-slot" style="background-image:url('Assets/img/film-posters/ode-to-rose-poster.jpg')"><div class="slot-overlay"><p class="slot-name">Ode to Rose</p><p class="slot-role">Production Sound Mixer</p></div></div>
+            <div class="poster-slot" style="background-image:url('Assets/img/film-posters/red-envelope-poster.jpg')"><div class="slot-overlay"><p class="slot-name">Red Envelope</p><p class="slot-role">Re-recording Mixer</p></div></div>
+            <div class="poster-slot" style="background-image:url('Assets/img/film-posters/green-with-envy-poster.jpg')"><div class="slot-overlay"><p class="slot-name">Green With Envy</p><p class="slot-role">Production Sound Mixer</p></div></div>
             <div class="poster-slot" style="background-image:url('Assets/img/film-posters/the-suicide-poster.jpeg')"><div class="slot-overlay"><p class="slot-name">The Suicide</p><p class="slot-role">Sound & Production Assistant</p></div></div>
           </div>
         </div>
@@ -1397,21 +1407,21 @@
             <button class="subnav-btn" data-role="assistant" onclick="filterMusic('assistant')">Asistente</button>
           </div>
           <div class="covers-grid">
-            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/adan-cruz-adanxito.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz — Adanxito</p><p class="slot-role">Dolby Atmos Engineer</p></div></div>
-            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/adan-cruz-adrian-marcelo.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz — Adrián Marcelo</p><p class="slot-role">Dolby Atmos Engineer</p></div></div>
-            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/miss-blanche-devuelveme-a-mi-chica.jpg')"><div class="slot-overlay"><p class="slot-name">Miss Blanche — Devuélveme a mi Chica</p><p class="slot-role">Dolby Atmos Mixing</p></div></div>
-            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/rene-antonio-2024.jpg')"><div class="slot-overlay"><p class="slot-name">Rene Antonio — 2024</p><p class="slot-role">Dolby Atmos Mixing</p></div></div>
-            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/sultan-el-inicio.jpg')"><div class="slot-overlay"><p class="slot-name">Sultan — El Inicio</p><p class="slot-role">Dolby Atmos & Stereo Mix</p></div></div>
-            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/nate-skies-make-it-out.jpg')"><div class="slot-overlay"><p class="slot-name">Nate Skies — Make It Out</p><p class="slot-role">Mixing & Mastering</p></div></div>
-            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/nate-skies-scarz.jpg')"><div class="slot-overlay"><p class="slot-name">Nate Skies — Scarz</p><p class="slot-role">Mixing & Mastering</p></div></div>
-            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/marly-marly-lo-siento-pero-no-lo-siento.jpg')"><div class="slot-overlay"><p class="slot-name">Marly — Lo Siento Pero No Lo Siento</p><p class="slot-role">Stereo Mix</p></div></div>
-            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/luis-fernando-donde-estas-amor.jpg')"><div class="slot-overlay"><p class="slot-name">Luis Fernando — Donde Estás Amor</p><p class="slot-role">Recording & Mixing</p></div></div>
-            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/adan-cruz-aja.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz — Aja</p><p class="slot-role">Mixing & Recording</p></div></div>
-            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/adan-cruz-otro-destino.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz — Otro Destino</p><p class="slot-role">Assistant Recording</p></div></div>
-            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/aleman-el-terre.jpg')"><div class="slot-overlay"><p class="slot-name">Alemán — El Terre</p><p class="slot-role">Assistant Recording</p></div></div>
-            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/gran-silencio-mexico-sabroso.jpg')"><div class="slot-overlay"><p class="slot-name">Gran Silencio — México Sabroso</p><p class="slot-role">Assistant Recording</p></div></div>
-            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/javie-lopez-clasicos-en-vivo.jpg')"><div class="slot-overlay"><p class="slot-name">Javier López — Clásicos en Vivo</p><p class="slot-role">Assistant Recording</p></div></div>
-            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/marly-marly-arigato.jpg')"><div class="slot-overlay"><p class="slot-name">Marly — Arigato</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/adan-cruz-adanxito.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz · Adanxito</p><p class="slot-role">Dolby Atmos Engineer</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/adan-cruz-adrian-marcelo.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz · Adrián Marcelo</p><p class="slot-role">Dolby Atmos Engineer</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/miss-blanche-devuelveme-a-mi-chica.jpg')"><div class="slot-overlay"><p class="slot-name">Miss Blanche · Devuélveme a mi Chica</p><p class="slot-role">Dolby Atmos Mixing</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/rene-antonio-2024.jpg')"><div class="slot-overlay"><p class="slot-name">Rene Antonio · 2024</p><p class="slot-role">Dolby Atmos Mixing</p></div></div>
+            <div class="cover-slot" data-role="atmos" style="background-image:url('Assets/img/album-covers/sultan-el-inicio.jpg')"><div class="slot-overlay"><p class="slot-name">Sultan · El Inicio</p><p class="slot-role">Dolby Atmos & Stereo Mix</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/nate-skies-make-it-out.jpg')"><div class="slot-overlay"><p class="slot-name">Nate Skies · Make It Out</p><p class="slot-role">Mixing & Mastering</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/nate-skies-scarz.jpg')"><div class="slot-overlay"><p class="slot-name">Nate Skies · Scarz</p><p class="slot-role">Mixing & Mastering</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/marly-marly-lo-siento-pero-no-lo-siento.jpg')"><div class="slot-overlay"><p class="slot-name">Marly · Lo Siento Pero No Lo Siento</p><p class="slot-role">Stereo Mix</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/luis-fernando-donde-estas-amor.jpg')"><div class="slot-overlay"><p class="slot-name">Luis Fernando · Donde Estás Amor</p><p class="slot-role">Recording & Mixing</p></div></div>
+            <div class="cover-slot" data-role="mix" style="background-image:url('Assets/img/album-covers/adan-cruz-aja.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz · Aja</p><p class="slot-role">Mixing & Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/adan-cruz-otro-destino.jpg')"><div class="slot-overlay"><p class="slot-name">Adan Cruz · Otro Destino</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/aleman-el-terre.jpg')"><div class="slot-overlay"><p class="slot-name">Alemán · El Terre</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/gran-silencio-mexico-sabroso.jpg')"><div class="slot-overlay"><p class="slot-name">Gran Silencio · México Sabroso</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/javie-lopez-clasicos-en-vivo.jpg')"><div class="slot-overlay"><p class="slot-name">Javier López · Clásicos en Vivo</p><p class="slot-role">Assistant Recording</p></div></div>
+            <div class="cover-slot" data-role="assistant" style="background-image:url('Assets/img/album-covers/marly-marly-arigato.jpg')"><div class="slot-overlay"><p class="slot-name">Marly · Arigato</p><p class="slot-role">Assistant Recording</p></div></div>
           </div>
         </div>
 
@@ -1423,7 +1433,7 @@
 
       <!-- 8 CONTACT -->
       <div class="page" id="page-contact">
-        <p class="page-eyebrow fade-in">08 — Contacto</p>
+        <p class="page-eyebrow fade-in">08 · Contacto</p>
 
         <h2 class="contact-heading fade-in">
           Hablemos de tu<br><em>próximo proyecto.</em>

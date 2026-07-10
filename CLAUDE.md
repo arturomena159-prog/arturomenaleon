@@ -34,12 +34,14 @@ No tiene embed — integrado como link en página Proyectos.
 - `album covers/` — 15 portadas de álbumes para grid de Proyectos/Música
 - `film posters/` — 3 posters para grid de Proyectos/Cine
 
-### Grid Proyectos — Cine (3 películas)
+### Grid Proyectos — Cine (5 películas, orden en el grid: SAVI, Ode to Rose, Red Envelope, Green With Envy, The Suicide)
 | Archivo | Título | Rol |
 |---------|--------|-----|
 | Green With Envy Poster.jpg | Green With Envy | Production Sound Mixer |
 | SAVI Poster.jpg | SAVI | Foley Mixer & Editor |
 | The suicide Poster.jpeg | The Suicide | Sound & Production Assistant |
+| ode-to-rose-poster.jpg | Ode to Rose | Production Sound Mixer |
+| red-envelope-poster.jpg | Red Envelope | Re-recording Mixer |
 
 ### Grid Proyectos — Música (15 álbumes)
 | Archivo | Artista — Álbum | Rol | Tab |
