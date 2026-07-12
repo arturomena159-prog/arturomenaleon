@@ -318,6 +318,34 @@
     animation: fadeUp 1s 1s both;
   }
 
+  .home-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3.5rem;
+  }
+  .home-hero-text { flex: 1; min-width: 0; }
+  .home-hero-photo {
+    flex-shrink: 0;
+    width: 58%;
+    max-width: 700px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.3s;
+    animation: fadeUp 1s 0.5s both;
+  }
+  .home-hero-photo:hover { border-color: var(--accent); }
+  .home-hero-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center 75%;
+    filter: grayscale(15%);
+    transition: filter 0.4s;
+  }
+  .home-hero-photo:hover img { filter: grayscale(0%); }
+
   .btn {
     display: inline-flex;
     align-items: center;
@@ -807,6 +835,9 @@
     .home-divider { display: none; }
     .atmos-stats { gap: 1.5rem; }
     .page-footer { flex-direction: column; gap: 0.5rem; }
+    figure.media-frame img { width: 240px; height: 300px; }
+    .home-hero { flex-direction: column-reverse; gap: 2rem; }
+    .home-hero-photo { width: 100%; max-width: 340px; margin-left: 0; }
   }
 
   .hamburger {
@@ -934,8 +965,8 @@
   figure.media-frame:hover { border-color: var(--accent); }
   figure.media-frame img {
     display: block;
-    width: 240px;
-    height: 300px;
+    width: 340px;
+    height: 425px;
     object-fit: cover;
     object-position: center 20%;
     filter: grayscale(15%);
@@ -1035,31 +1066,41 @@
           <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
         </div>
 
-        <div class="home-spacer"></div>
+        <div class="home-spacer" style="flex:0.42;"></div>
 
-        <p class="page-eyebrow" style="animation: fadeUp 1s 0.2s both;">Sonido · Cine · Fotografía · México · UK</p>
+        <div class="home-hero">
+          <div class="home-hero-text">
+            <p class="page-eyebrow" style="animation: fadeUp 1s 0.2s both;">Sonido · Cine · Fotografía · México · UK</p>
 
-        <h1 class="home-name">
-          Arturo<br>Mena <em>León</em>
-        </h1>
+            <h1 class="home-name">
+              Arturo<br>Mena <em>León</em>
+            </h1>
 
-        <div class="home-roles">
-          <div class="roles-list">
-            <span>Audio Post · Re-recording Mixer</span>
-            <span>Dolby Atmos Mixer</span>
-            <span>Stereo Recording, Mixing, Mastering</span>
-            <span>Production Sound Mixer</span>
-            <span>Foley Artist</span>
-            <span>Percusionista · Baterista</span>
-            <span>Fotógrafo</span>
+            <div class="home-roles">
+              <div class="roles-list">
+                <span>Audio Post · Re-recording Mixer</span>
+                <span>Dolby Atmos Mixer</span>
+                <span>Stereo Recording, Mixing, Mastering</span>
+                <span>Production Sound Mixer</span>
+                <span>Foley Artist</span>
+                <span>Percusionista · Baterista</span>
+                <span>Fotógrafo</span>
+              </div>
+              <div class="home-divider"></div>
+              <p class="home-tagline">Audio para cine y música: de la locación a la mezcla final.</p>
+            </div>
+
+            <div class="home-cta">
+              <button class="btn" onclick="goTo(1)">Explorar →</button>
+            </div>
           </div>
-          <div class="home-divider"></div>
-          <p class="home-tagline">Audio para cine y música: de la locación a la mezcla final.</p>
+
+          <div class="home-hero-photo">
+            <img src="Assets/img/studio/drums-bw.jpg" alt="Arturo tocando la batería" loading="eager" decoding="async">
+          </div>
         </div>
 
-        <div class="home-cta">
-          <button class="btn" onclick="goTo(1)">Explorar →</button>
-        </div>
+        <div class="home-spacer" style="flex:0.58;"></div>
 
         <div class="page-footer">
           <span>arturomenaleon.com</span>
@@ -1075,8 +1116,8 @@
 
         <div class="about-grid">
           <div class="fade-in">
-            <figure class="media-frame">
-              <img src="Assets/img/on-set/headshot-gear.jpeg" alt="Arturo Mena León" loading="lazy" decoding="async">
+            <figure class="media-frame" style="display:block;width:fit-content;margin-left:18rem;">
+              <img src="Assets/img/on-set/headphones-hold.jpg" alt="Arturo Mena León" loading="lazy" decoding="async">
               <figcaption>Londres, 2025</figcaption>
             </figure>
             <span class="label">En números</span>
@@ -1309,6 +1350,12 @@
               <span class="tag">En Vivo</span>
             </div>
           </div>
+          <div class="fade-in" style="display:flex;justify-content:center;align-items:center;">
+            <figure class="media-frame">
+              <img src="Assets/img/studio/arturo-drums.jpg" alt="Arturo tras la batería" loading="lazy" decoding="async">
+              <figcaption>Tras la batería</figcaption>
+            </figure>
+          </div>
         </div>
 
         <div class="services-grid fade-in">
@@ -1328,6 +1375,12 @@
             <p class="service-name">Audio + Música</p>
             <p class="service-desc">Como músico e ingeniero, puedo encargarme de la grabación y entregar stems de batería organizados y listos para mezclar.</p>
           </div>
+        </div>
+
+        <div class="gallery fade-in" style="margin-top:3rem;">
+          <div class="photo-slot l"><img src="Assets/img/studio/drum-booth.jpg" alt="Cabina de grabación · batería" loading="lazy"><span class="photo-caption">Cabina · Batería</span></div>
+          <div class="photo-slot m"><img src="Assets/img/studio/mix-console.jpg" alt="Consola de mezcla" loading="lazy"><span class="photo-caption">Sala de control</span></div>
+          <div class="photo-slot s"><img src="Assets/img/studio/recording-session.jpg" alt="Sesión de grabación" loading="lazy"><span class="photo-caption">Sesión</span></div>
         </div>
 
         <div class="page-footer">
