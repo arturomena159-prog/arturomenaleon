@@ -199,17 +199,20 @@
   }
   .player.compact .eyebrow { display: none; }
   .player.compact h1 { font-size: 15px; margin-bottom: 0; }
-  .player.compact .artist { font-size: 11px; margin-bottom: 14px; }
+  .player.compact .artist { font-size: 11px; margin-bottom: 10px; }
   .player.compact .tracks { display: none; }
-  .player.compact .wave-wrap { height: 56px; margin-bottom: 14px; }
-  .player.compact .play-btn { width: 40px; height: 40px; }
-  .player.compact .play-btn svg { width: 16px; height: 16px; }
+  .player.compact .wave-wrap { height: 56px; margin-bottom: 10px; }
+  .player.compact .play-btn {
+    width: 56px; height: 24px; border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .player.compact .play-btn svg { width: 13px; height: 13px; }
   .player.compact .time { font-size: 11px; min-width: 70px; }
   .player.compact .ab-toggle button { padding: 7px 16px; font-size: 12px; }
   .player.compact .footer { display: none; }
   .player.compact .compact-label {
     display: block;
-    margin-top: 12px;
+    margin-top: 8px;
     font-size: 11px;
     color: var(--slate);
     text-align: center;
