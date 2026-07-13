@@ -189,6 +189,32 @@
 
   [hidden] { display: none !important; }
 
+  /* ---- compact embed mode (?compact=1) ---- */
+  body.compact-body { padding: 10px; }
+  .compact-label { display: none; }
+  .player.compact {
+    max-width: 360px;
+    padding: 18px;
+    border-radius: 14px;
+  }
+  .player.compact .eyebrow { display: none; }
+  .player.compact h1 { font-size: 15px; margin-bottom: 0; }
+  .player.compact .artist { font-size: 11px; margin-bottom: 14px; }
+  .player.compact .tracks { display: none; }
+  .player.compact .wave-wrap { height: 56px; margin-bottom: 14px; }
+  .player.compact .play-btn { width: 40px; height: 40px; }
+  .player.compact .play-btn svg { width: 16px; height: 16px; }
+  .player.compact .time { font-size: 11px; min-width: 70px; }
+  .player.compact .ab-toggle button { padding: 7px 16px; font-size: 12px; }
+  .player.compact .footer { display: none; }
+  .player.compact .compact-label {
+    display: block;
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--slate);
+    text-align: center;
+  }
+
   @media (max-width: 520px) {
     .player { padding: 22px; }
     .tracks { grid-template-columns: 1fr; }
@@ -244,6 +270,8 @@
     <span><kbd>espacio</kbd> reproducir · <kbd>tab</kbd>/<kbd>t</kbd> alternar A/B</span>
     <span>sincronía a nivel de muestra</span>
   </div>
+
+  <div class="compact-label" id="compactLabel"></div>
 </div>
 
 <div class="fatal" id="fatalError" hidden>
@@ -267,6 +295,7 @@
   let duration = 0;
   let raf = null;
   let manifest = null;
+  const compact = new URLSearchParams(location.search).get('compact') === '1';
 
   const $ = id => document.getElementById(id);
   const playBtn = $('playBtn'), playIcon = $('playIcon');
@@ -276,6 +305,15 @@
   const statusEls = [$('statusA'), $('statusB')];
   const versionSelect = $('versionSelect');
   const versionNotes = $('versionNotes');
+  const compactLabel = $('compactLabel');
+
+  function updateCompactLabel() {
+    if (!manifest) return;
+    const v = manifest.versions[Number(versionSelect.value)];
+    compactLabel.textContent = active === 0
+      ? (manifest.reference.label || 'A')
+      : (v.label || 'B') + (v.v ? ' · ' + v.v : '');
+  }
 
   function ensureCtx() {
     if (!ctx) {
@@ -317,6 +355,10 @@
     }
 
     $('player').hidden = false;
+    if (compact) {
+      document.body.classList.add('compact-body');
+      $('player').classList.add('compact');
+    }
     $('title').textContent = manifest.title || 'Sin título';
     $('artist').textContent = manifest.artist || '';
     $('labelA').textContent = manifest.reference.label || 'Referencia';
@@ -330,6 +372,7 @@
     const firstIndex = 0;
     versionSelect.value = firstIndex;
     updateNotes(manifest.versions[firstIndex]);
+    updateCompactLabel();
 
     await Promise.all([
       loadTrack(0, manifest.reference.file),
@@ -349,6 +392,7 @@
   async function onVersionChange() {
     const v = manifest.versions[Number(versionSelect.value)];
     updateNotes(v);
+    updateCompactLabel();
     const wasPlaying = playing;
     if (playing) pause();
     versionSelect.disabled = true;
@@ -516,7 +560,7 @@
 
   // ---------- the toggle ----------
   function setActive(i) {
-    if (i === active || !ctx) { active = i; syncToggleUI(); return; }
+    if (i === active || !ctx) { active = i; syncToggleUI(); updateCompactLabel(); return; }
     active = i;
     const t = ctx.currentTime;
     const RAMP = 0.004; // 4 ms — sin clics, se percibe instantáneo
@@ -527,6 +571,7 @@
     gains[i].gain.linearRampToValueAtTime(1, t + RAMP);
     gains[1 - i].gain.linearRampToValueAtTime(0, t + RAMP);
     syncToggleUI();
+    updateCompactLabel();
     drawWave();
   }
 
