@@ -1,0 +1,22 @@
+﻿{
+    "id":  "boogie-h5p8",
+    "title":  "Boogie",
+    "artist":  "Diz Establishment",
+    "genre":  "",
+    "status":  "in_progress",
+    "approved_version":  null,
+    "public":  false,
+    "reference":  {
+                      "label":  "Rough Mix",
+                      "file":  "https://pub-b481227c942e412cbd14d11a31f2d0d1.r2.dev/boogie-h5p8/reference.wav"
+                  },
+    "versions":  [
+                     {
+                         "v":  "v1.8",
+                         "label":  "Final Master",
+                         "date":  "2026-07-13",
+                         "notes":  "",
+                         "file":  "https://pub-b481227c942e412cbd14d11a31f2d0d1.r2.dev/boogie-h5p8/v1.8.wav"
+                     }
+                 ]
+}
