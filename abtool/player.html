@@ -190,7 +190,7 @@
   [hidden] { display: none !important; }
 
   /* ---- compact embed mode (?compact=1) ---- */
-  body.compact-body { padding: 10px; }
+  body.compact-body { padding: 10px; overflow: hidden; }
   .compact-label { display: none; }
   .player.compact {
     max-width: 360px;
@@ -359,6 +359,7 @@
 
     $('player').hidden = false;
     if (compact) {
+      document.documentElement.style.overflow = 'hidden';
       document.body.classList.add('compact-body');
       $('player').classList.add('compact');
     }
