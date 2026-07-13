@@ -190,30 +190,40 @@
   [hidden] { display: none !important; }
 
   /* ---- compact embed mode (?compact=1) ---- */
-  body.compact-body { padding: 10px; overflow: hidden; }
+  body.compact-body { padding: 8px; overflow: hidden; }
   .compact-label { display: none; }
   .player.compact {
-    max-width: 360px;
-    padding: 18px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "title title title"
+      "play  wave  wave"
+      "time  label toggle";
+    column-gap: 10px;
+    row-gap: 6px;
+    align-items: center;
+    max-width: 460px;
+    padding: 14px 16px;
     border-radius: 14px;
   }
   .player.compact .eyebrow { display: none; }
-  .player.compact h1 { font-size: 15px; margin-bottom: 0; }
-  .player.compact .artist { font-size: 11px; margin-bottom: 10px; }
+  .player.compact .header-row { grid-area: title; }
+  .player.compact .header-row h1 { font-size: 14px; margin-bottom: 0; }
+  .player.compact .header-row .artist { font-size: 10px; margin-bottom: 0; }
   .player.compact .tracks { display: none; }
-  .player.compact .wave-wrap { height: 56px; margin-bottom: 10px; }
-  .player.compact .play-btn {
-    width: 56px; height: 24px; border-radius: 12px;
-    flex-shrink: 0;
-  }
-  .player.compact .play-btn svg { width: 13px; height: 13px; }
-  .player.compact .time { font-size: 11px; min-width: 70px; }
-  .player.compact .ab-toggle button { padding: 7px 16px; font-size: 12px; }
+  .player.compact .wave-wrap { grid-area: wave; height: 44px; margin-bottom: 0; }
+  .player.compact .transport { display: contents; }
+  .player.compact .play-btn { grid-area: play; width: 32px; height: 32px; flex-shrink: 0; }
+  .player.compact .play-btn svg { width: 14px; height: 14px; }
+  .player.compact .time { grid-area: time; font-size: 10px; min-width: auto; }
+  .player.compact .ab-toggle { grid-area: toggle; margin-left: 0; }
+  .player.compact .ab-toggle button { padding: 5px 12px; font-size: 11px; }
   .player.compact .footer { display: none; }
   .player.compact .compact-label {
     display: block;
-    margin-top: 8px;
-    font-size: 11px;
+    grid-area: label;
+    margin-top: 0;
+    font-size: 10px;
     color: var(--slate);
     text-align: center;
   }
@@ -235,8 +245,10 @@
 
 <div class="player" id="player" hidden>
   <div class="eyebrow">Arturo Mena León · Comparador de mezclas</div>
-  <h1 id="title">—</h1>
-  <div class="artist" id="artist">—</div>
+  <div class="header-row">
+    <h1 id="title">—</h1>
+    <div class="artist" id="artist">—</div>
+  </div>
 
   <div class="tracks">
     <div class="track-card a">
