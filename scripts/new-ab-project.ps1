@@ -144,3 +144,12 @@ Write-Host ""
 Write-Host "  Para agregar una versión del lado B, usa:" -ForegroundColor Yellow
 Write-Host "    .\add-version.ps1" -ForegroundColor Gray
 Write-Host ""
+Write-Host "--- SNIPPET PARA EMBEBER EN LA WEB ---" -ForegroundColor Yellow
+Write-Host "  Pégalo donde quieras mostrar el comparador (versión compacta):"
+Write-Host ""
+Write-Host "        <div class=`"ab-embed-wrap fade-in`">" -ForegroundColor Gray
+Write-Host "          <iframe class=`"ab-embed-iframe`" src=`"https://arturomenaleon.com/abtool/$slug/?compact=1`" loading=`"lazy`"></iframe>" -ForegroundColor Gray
+Write-Host "        </div>" -ForegroundColor Gray
+Write-Host ""
+Write-Host "  (requiere que la página tenga las clases .ab-embed-wrap / .ab-embed-iframe del CSS del sitio)" -ForegroundColor DarkGray
+Write-Host ""
