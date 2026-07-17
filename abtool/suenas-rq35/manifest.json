@@ -1,0 +1,22 @@
+﻿{
+    "id":  "suenas-rq35",
+    "title":  "Sueñas",
+    "artist":  "Elvis",
+    "genre":  "",
+    "status":  "in_progress",
+    "approved_version":  null,
+    "public":  false,
+    "reference":  {
+                      "label":  "Mix Original",
+                      "file":  "https://pub-b481227c942e412cbd14d11a31f2d0d1.r2.dev/suenas-rq35/reference.wav"
+                  },
+    "versions":  [
+                     {
+                         "v":  "v1.4",
+                         "label":  "Final Master",
+                         "date":  "2026-07-17",
+                         "notes":  "",
+                         "file":  "https://pub-b481227c942e412cbd14d11a31f2d0d1.r2.dev/suenas-rq35/v1.4.wav"
+                     }
+                 ]
+}
