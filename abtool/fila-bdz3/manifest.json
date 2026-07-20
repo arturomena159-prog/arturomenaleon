@@ -1,0 +1,22 @@
+{
+  "id": "fila-bdz3",
+  "title": "Fila",
+  "artist": "Fcisco",
+  "genre": "",
+  "status": "in_progress",
+  "approved_version": null,
+  "public": false,
+  "reference": {
+    "label": "Rough Mix",
+    "file": "https://pub-b481227c942e412cbd14d11a31f2d0d1.r2.dev/fila-bdz3/reference.wav"
+  },
+  "versions": [
+    {
+      "v": "v1.3",
+      "label": "Mix & Master",
+      "date": "2026-07-20",
+      "notes": "",
+      "file": "https://pub-b481227c942e412cbd14d11a31f2d0d1.r2.dev/fila-bdz3/v1.3.wav"
+    }
+  ]
+}
