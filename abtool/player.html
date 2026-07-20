@@ -92,6 +92,23 @@
     font-size: 11px; color: var(--accent); background: none; border: none;
     text-decoration: underline; cursor: pointer; padding: 0; margin-top: 4px; font-family: inherit;
   }
+  .download-btn {
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, color 0.15s;
+  }
+  .download-btn:hover:not(:disabled) { background: var(--accent); color: #fff; }
+  .download-btn:disabled { opacity: 0.4; cursor: default; }
+  .player.compact .download-btn { display: none; }
 
   /* ---- waveform ---- */
   .wave-wrap {
@@ -282,6 +299,7 @@
       <select id="versionSelect" disabled></select>
       <div class="notes" id="versionNotes"></div>
       <div class="status" id="statusB">Cargando…</div>
+      <button class="download-btn" id="downloadBtn" disabled>Descargar</button>
     </div>
   </div>
 
@@ -342,6 +360,44 @@
   const versionSelect = $('versionSelect');
   const versionNotes = $('versionNotes');
   const compactLabel = $('compactLabel');
+  const downloadBtn = $('downloadBtn');
+
+  function extFromUrl(url) {
+    const m = url.split('?')[0].match(/\.([a-zA-Z0-9]+)$/);
+    return m ? m[1] : 'wav';
+  }
+
+  function sanitizeFilename(s) {
+    return String(s).replace(/[\\/:*?"<>|]/g, '').trim();
+  }
+
+  async function downloadCurrentVersion() {
+    if (!manifest) return;
+    const v = manifest.versions[Number(versionSelect.value)];
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = 'Descargando…';
+    try {
+      const res = await fetch(v.file);
+      if (!res.ok) throw new Error('http-' + res.status);
+      const blob = await res.blob();
+      const name = sanitizeFilename(`${manifest.title} - ${v.label}${v.v ? ' ' + v.v : ''}`) + '.' + extFromUrl(v.file);
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(blobUrl);
+      downloadBtn.textContent = 'Descargar';
+    } catch (err) {
+      downloadBtn.textContent = 'Error, reintentar';
+    } finally {
+      downloadBtn.disabled = false;
+    }
+  }
+
+  downloadBtn.addEventListener('click', downloadCurrentVersion);
 
   function updateCompactLabel() {
     if (!manifest) return;
@@ -405,6 +461,7 @@
     ).join('');
     versionSelect.disabled = false;
     versionSelect.addEventListener('change', onVersionChange);
+    downloadBtn.disabled = false;
 
     let firstIndex = 0;
     if (manifest.status === 'approved' && manifest.approved_version) {
