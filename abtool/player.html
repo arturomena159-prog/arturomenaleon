@@ -170,6 +170,23 @@
     display: flex;
     justify-content: space-between;
   }
+
+  /* ---- sealed / approved banner (Fase 2) ---- */
+  .approved-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+  .approved-banner .check { font-size: 14px; }
+  .player.compact .approved-banner { display: none; }
   kbd {
     background: var(--mist-1); border-radius: 4px; padding: 1px 6px;
     font-family: inherit; font-size: 10px; color: var(--slate);
@@ -248,6 +265,10 @@
   <div class="header-row">
     <h1 id="title">—</h1>
     <div class="artist" id="artist">—</div>
+  </div>
+
+  <div class="approved-banner" id="approvedBanner" hidden>
+    <span class="check">✓</span><span>Approved Mix · <span id="approvedVersion"></span></span>
   </div>
 
   <div class="tracks">
@@ -385,7 +406,13 @@
     versionSelect.disabled = false;
     versionSelect.addEventListener('change', onVersionChange);
 
-    const firstIndex = 0;
+    let firstIndex = 0;
+    if (manifest.status === 'approved' && manifest.approved_version) {
+      const idx = manifest.versions.findIndex(v => v.v === manifest.approved_version);
+      if (idx !== -1) firstIndex = idx;
+      $('approvedVersion').textContent = manifest.approved_version;
+      $('approvedBanner').hidden = false;
+    }
     versionSelect.value = firstIndex;
     updateNotes(manifest.versions[firstIndex]);
     updateCompactLabel();

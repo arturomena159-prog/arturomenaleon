@@ -3,8 +3,8 @@
     "title":  "Boogie",
     "artist":  "Diz Establishment",
     "genre":  "",
-    "status":  "in_progress",
-    "approved_version":  null,
+    "status":  "approved",
+    "approved_version":  "v1.8",
     "public":  false,
     "reference":  {
                       "label":  "Rough Mix",

@@ -3,8 +3,8 @@
     "title":  "Sueñas",
     "artist":  "Elvis",
     "genre":  "",
-    "status":  "in_progress",
-    "approved_version":  null,
+    "status":  "approved",
+    "approved_version":  "v1.4",
     "public":  false,
     "reference":  {
                       "label":  "Mix Original",
